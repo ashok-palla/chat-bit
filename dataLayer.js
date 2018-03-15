@@ -8,9 +8,10 @@ module.exports.employees = function (emploeeId, callback) {
         connectTimeout: 30000
     });
     connection.connect();
-    connection.query("SELECT CONCAT(FirstName, CONCAT(' ', LastName)) as name  FROM employee WHERE ID =" + emploeeId, function (error, results, fields) {
+    connection.query("SELECT FirstName as name  FROM employee WHERE ID =" + emploeeId, function (error, results, fields) {
         if (error) throw error;
         connection.end();
+        console.log(results);
         callback(results[0].name);
     });
 };
