@@ -1,9 +1,9 @@
 var mysql = require('mysql');
 var connection = mysql.createConnection({
-    host: '35.192.143.8',
-    user: 'ashok',
-    password: 'ashok',
-    database: 'employee',
+    host: 'us-cdbr-iron-east-05.cleardb.net',
+    user: 'b6dc78df8aae06',
+    password: '4a0ec4f7',
+    database: 'heroku_f9ca64a925836b6',
     connectTimeout: 30000
 });
 module.exports.employees = function (emploeeId, callback) {
