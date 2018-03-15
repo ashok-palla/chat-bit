@@ -1,22 +1,22 @@
-"use strict";
-
-const express = require("express");
-const bodyParser = require("body-parser");
-
-const restService = express();
-
-restService.use(bodyParser.urlencoded({
-  extended: true
-}));
-
+var express = require("express");
+var bodyParser = require("body-parser");
+var restService = express();
+restService.use(bodyParser.urlencoded({ extended: true }));
 restService.use(bodyParser.json());
-
+var data_layer = require('./dataLayer');
+restService.get('/employee', function (req, res) {
+  var speech = req.body.result && req.body.result.parameters && req.body.result.parameters.employeeId ? req.body.result.parameters.employeeId : "Seems like some problem. Speak again.";
+  //console.log(req.body.result.parameters.employeeId);
+  // return res.json({ speech: speech, displayText: speech, source: "meritus-bot" });
+  // data_layer.employees(21218, (response) => { res.status(200).json(response); });
+  data_layer.employees(req.body.result.parameters.employeeId, (response) => { res.json({ speech: response, displayText: response, source: "meritus-bot" }); });
+});
 restService.post("/echo", function (req, res) {
   var speech = req.body.result && req.body.result.parameters && req.body.result.parameters.echoText ? req.body.result.parameters.echoText : "Seems like some problem. Speak again.";
   return res.json({
     speech: speech,
     displayText: speech,
-    source: "webhook-echo-sample"
+    source: "meritus-bot"
   });
 });
 
