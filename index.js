@@ -4,7 +4,7 @@ var restService = express();
 restService.use(bodyParser.urlencoded({ extended: true }));
 restService.use(bodyParser.json());
 var data_layer = require('./dataLayer');
-restService.get('/employee', function (req, res) {
+restService.post('/employee', function (req, res) {
   var speech = req.body.result && req.body.result.parameters && req.body.result.parameters.employeeId ? req.body.result.parameters.employeeId : "Seems like some problem. Speak again.";
   //console.log(req.body.result.parameters.employeeId);
   // return res.json({ speech: speech, displayText: speech, source: "meritus-bot" });
