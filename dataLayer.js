@@ -3,7 +3,8 @@ var connection = mysql.createConnection({
     host: '35.192.143.8',
     user: 'ashok',
     password: 'ashok',
-    database: 'employee'
+    database: 'employee',
+    connectTimeout: 30000
 });
 module.exports.employees = function (emploeeId, callback) {
     connection.connect();
