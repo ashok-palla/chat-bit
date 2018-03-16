@@ -16,6 +16,7 @@
     "nodemailer": "^4.6.3"
   },
   "devDependencies": {
-    "ncu": "^0.2.1"
+    "ncu": "^0.2.1",
+    "nodemon": "^1.17.2"
   }
 }
