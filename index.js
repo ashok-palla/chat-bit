@@ -6,7 +6,7 @@ restService.use(bodyParser.json());
 var data_layer = require('./dataLayer');
 
 restService.use(function (req, res, next) { next(); });
-restService.post('/employee', function (req, res) {
+restService.post('/meritus_bot', function (req, res) {
   if (req.body.result.metadata.intentName == "whose_employee_id") {
     console.log(req.body.result.metadata);
     if(req.body.result && req.body.result.parameters && req.body.result.parameters.employeeId) {
