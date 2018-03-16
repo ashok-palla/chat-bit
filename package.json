@@ -10,8 +10,10 @@
   "dependencies": {
     "body-parser": "^1.15.0",
     "express": "^4.13.4",
+    "fs": "0.0.1-security",
     "joi": "^13.1.2",
-    "mysql": "^2.15.0"
+    "mysql": "^2.15.0",
+    "nodemailer": "^4.6.3"
   },
   "devDependencies": {
     "ncu": "^0.2.1"
