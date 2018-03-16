@@ -27,9 +27,10 @@ restService.post('/meritus_bot', function (req, res) {
         return res.status(200).json({ speech: result.speech, displayText: result.display, source: "meritus-bot" });
       });
     }
-  }
+    break;
   default:
     return res.status(200).json({ speech: 'i did\'t get you', displayText: 'i did\'t get you', source: "meritus-bot" });
+  }
 
   }
 
