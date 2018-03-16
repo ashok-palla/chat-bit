@@ -29,8 +29,7 @@ module.exports.employeeName = function (emploeeName, callback) {
         connectTimeout: 30000
     });
     connection.connect();
-    console.log("SELECT FirstName, LastName  FROM employee WHERE FirstName = '%" + emploeeName + "%'");
-    connection.query("SELECT FirstName, LastName  FROM employee WHERE FirstName = '%" + emploeeName + "%'", function (error, results, fields) {
+    connection.query("SELECT FirstName, LastName  FROM employee WHERE FirstName like '%" + emploeeName + "%'", function (error, results, fields) {
         if (error) throw error;
         connection.end();
         callback(results);

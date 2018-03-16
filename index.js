@@ -19,11 +19,23 @@ restService.post('/meritus_bot', function (req, res) {
     }
     else if (req.body.result && req.body.result.parameters && req.body.result.parameters.employeeName) {
       data_layer.employeeName(req.body.result.parameters.employeeName, (results) => {
-        var result = {
-          speech: results.length > 0 ? req.body.result.parameters.employeeName + ' is ' + (results[0].FirstName + ' ' + results[0].LastName).toLocaleLowerCase() + '\'s employee identification number.' : ('no employee exists on ' + req.body.result.parameters.employeeName),
-          display: results.length > 0 ? req.body.result.parameters.employeeId + ' is ' + (results[0].FirstName + ' ' + results[0].LastName).toLocaleLowerCase() + '\'s employee identification number.' : ('no employee exists on ' + req.body.result.parameters.employeeName)
-        };
-        return res.status(200).json({ speech: result.speech, displayText: result.display, source: "meritus-bot" });
+        if (results.length = 0) {
+          return res.status(200).json({ speech: ('no employee exists on ' + req.body.result.parameters.employeeName), displayText: ('no employee exists on ' + req.body.result.parameters.employeeName), source: "meritus-bot" });
+        }
+        else if (results.length == 1) {
+          var result = {
+            speech: req.body.result.parameters.employeeName + ' is ' + (results[0].FirstName + ' ' + results[0].LastName).toLocaleLowerCase() + '\'s employee identification number.',
+            display: req.body.result.parameters.employeeId + ' is ' + (results[0].FirstName + ' ' + results[0].LastName).toLocaleLowerCase() + '\'s employee identification number.'
+          };
+          return res.status(200).json({ speech: result.speech, displayText: result.display, source: "meritus-bot" });
+        }
+        else if (results.length > 1) {
+          var concatString;
+          results.forEach((item, key) => {
+            concatString += key + '.' + (results[0].FirstName + ' ' + results[0].LastName).toLocaleLowerCase() + '\n';
+          });
+          return res.status(200).json({ speech: 'there is ' + results.length + ' ' + req.body.result.parameters.employeeName + '\'s check the list', displayText: concatString, source: "meritus-bot" });
+        }
       });
     }
 
