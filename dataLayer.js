@@ -15,6 +15,7 @@ module.exports.employees = function (emploeeId, callback) {
         connection.connect();
         connection.query("SELECT FirstName, LastName  FROM employee WHERE ID =" + emploeeId, function (error, results, fields) {
             if (error) throw error;
+            connection.end();
             callback(results);
         });
      });
