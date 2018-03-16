@@ -1,10 +1,10 @@
 var mysql = require('mysql');
 var Joi = require('joi');
 module.exports.employees = function (emploeeId, callback) {
-    const schema = { emploeeId: Joi.number() };
+    const schema = { emploeeId: Joi.number().min(21100).max(30000).length(5).required() };
     const value = { emploeeId: emploeeId };
     Joi.validate(value, schema, (err, value) => {
-        if (err) callback('buddy only numbers allowed.');
+        if (err) callback('buddy, please check employee identification.');
         var connection = mysql.createConnection({
             host: 'us-cdbr-iron-east-05.cleardb.net',
             user: 'b6dc78df8aae06',

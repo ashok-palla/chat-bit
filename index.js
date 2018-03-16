@@ -9,7 +9,7 @@ restService.post('/employee', function (req, res) {
   // console.log(req.body.result.parameters.employeeId);
   // return res.json({ speech: speech, displayText: speech, source: "meritus-bot" });
   // data_layer.employees(21218, (response) => { res.status(200).json(response); });
-  data_layer.employees(req.body.result.parameters.employeeId, (response) => { return res.json({ speech: response, displayText: req.body.result.parameters.employeeId, source: "meritus-bot" }); });
+  data_layer.employees(req.body.result.parameters.employeeId, (response) => { return res.json({ speech: req.body.result.parameters.employeeId, displayText: req.body.result.parameters.employeeId, source: "meritus-bot" }); });
 });
 restService.post("/echo", function (req, res) {
   var speech = req.body.result && req.body.result.parameters && req.body.result.parameters.echoText ? req.body.result.parameters.echoText : "Seems like some problem. Speak again.";
