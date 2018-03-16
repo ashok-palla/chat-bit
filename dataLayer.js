@@ -12,7 +12,6 @@ module.exports.employees = function (emploeeId, callback) {
         if (error) throw error;
         connection.end();
         console.log(results);
-        callback(results[0].name ?results[0].name:'no employee')
-                 
+        callback(results.length > 0 ? results[0].name : ('no employee exists on ' + emploeeId));                 
     });
 };
