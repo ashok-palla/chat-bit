@@ -50,7 +50,7 @@ restService.post('/meritus_bot', function (req, res) {
         return res.status(200).json({ speech: 'register me called', displayText: 'register me called', source: "meritus-bot" });
       }
       else {
-        return res.status(200).json({ speech: 'please enter ,erilytics email only', displayText: 'please enter ,erilytics email only', source: "meritus-bot" });
+        return res.status(200).json({ speech: 'please enter merilytics email only', displayText: 'please enter ,erilytics email only', source: "meritus-bot" });
       }
     }
   }
