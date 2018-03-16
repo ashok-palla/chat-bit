@@ -7,8 +7,8 @@ var data_layer = require('./dataLayer');
 
 restService.use(function (req, res, next) { next(); });
 restService.post('/meritus_bot', function (req, res) {
-  if (req.body.result.metadata.intentName == "whose_employee_id") {
-    console.log(req.body.result.metadata);
+  switch(req.body.result.metadata.intentName){
+  case "whose_employee_id" :
     if(req.body.result && req.body.result.parameters && req.body.result.parameters.employeeId) {
       data_layer.employeeId(req.body.result.parameters.employeeId, (results) => {
         var result = {
@@ -28,8 +28,9 @@ restService.post('/meritus_bot', function (req, res) {
       });
     }
   }
-  else {
+  default:
     return res.status(200).json({ speech: 'i did\'t get you', displayText: 'i did\'t get you', source: "meritus-bot" });
+
   }
 
 });
