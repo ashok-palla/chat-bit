@@ -28,6 +28,9 @@ restService.post('/meritus_bot', function (req, res) {
     }
 
   }
+  else if (req.body.result.metadata.intentName === "register_me_next") {
+    return res.status(200).json({ speech: 'register me called', displayText: 'register me called', source: "meritus-bot" });
+  }
   else {
     return res.status(200).json({ speech: 'i did\'t get you', displayText: 'i did\'t get you', source: "meritus-bot" });
   }
