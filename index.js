@@ -7,9 +7,8 @@ var data_layer = require('./dataLayer');
 
 restService.use(function (req, res, next) { next(); });
 restService.post('/meritus_bot', function (req, res) {
-  switch(req.body.result.metadata.intentName){
-  case "whose_employee_id" :
-    if(req.body.result && req.body.result.parameters && req.body.result.parameters.employeeId) {
+  if (req.body.result.metadata.intentName === "whose_employee_id") {
+    if (req.body.result && req.body.result.parameters && req.body.result.parameters.employeeId) {
       data_layer.employeeId(req.body.result.parameters.employeeId, (results) => {
         var result = {
           speech: results.length > 0 ? req.body.result.parameters.employeeId + ' is ' + (results[0].FirstName + ' ' + results[0].LastName).toLocaleLowerCase() + '\'s employee identification number.' : ('no employee exists on ' + req.body.result.parameters.employeeId),
@@ -18,7 +17,7 @@ restService.post('/meritus_bot', function (req, res) {
         return res.status(200).json({ speech: result.speech, displayText: result.display, source: "meritus-bot" });
       });
     }
-    else if(req.body.result && req.body.result.parameters && req.body.result.parameters.employeeName) {
+    else if (req.body.result && req.body.result.parameters && req.body.result.parameters.employeeName) {
       data_layer.employeeName(req.body.result.parameters.employeeName, (results) => {
         var result = {
           speech: results.length > 0 ? req.body.result.parameters.employeeName + ' is ' + (results[0].FirstName + ' ' + results[0].LastName).toLocaleLowerCase() + '\'s employee identification number.' : ('no employee exists on ' + req.body.result.parameters.employeeName),
@@ -27,13 +26,11 @@ restService.post('/meritus_bot', function (req, res) {
         return res.status(200).json({ speech: result.speech, displayText: result.display, source: "meritus-bot" });
       });
     }
-    break;
-  default:
+
+  }
+  else {
     return res.status(200).json({ speech: 'i did\'t get you', displayText: 'i did\'t get you', source: "meritus-bot" });
   }
-
-  }
-
 });
 restService.post("/echo", function (req, res) {
   var speech = req.body.result && req.body.result.parameters && req.body.result.parameters.echoText ? req.body.result.parameters.echoText : "Seems like some problem. Speak again.";
