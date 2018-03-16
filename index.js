@@ -10,7 +10,7 @@ restService.post('/employee', function (req, res) {
     if(req.body.result && req.body.result.parameters && req.body.result.parameters.employeeId) {
       data_layer.employeeId(req.body.result.parameters.employeeId, (results) => {
         var result = {
-          speech: results.length > 0 ? '<speak><say-as interpret-as="telephone">' + req.body.result.parameters.employeeId + '</speak> is ' + (results[0].FirstName + ' ' + results[0].LastName).toLocaleLowerCase() + '\'s employee identification number.' : ('no employee exists on ' + req.body.result.parameters.employeeId),
+          speech: results.length > 0 ? req.body.result.parameters.employeeId + ' is ' + (results[0].FirstName + ' ' + results[0].LastName).toLocaleLowerCase() + '\'s employee identification number.' : ('no employee exists on ' + req.body.result.parameters.employeeId),
           display: results.length > 0 ? req.body.result.parameters.employeeId + ' is ' + (results[0].FirstName + ' ' + results[0].LastName).toLocaleLowerCase() + '\'s employee identification number.' : ('no employee exists on ' + req.body.result.parameters.employeeId)
         };
         return res.status(200).json({ speech: result.speech, displayText: result.display, source: "meritus-bot" });
@@ -19,7 +19,7 @@ restService.post('/employee', function (req, res) {
     else if(req.body.result && req.body.result.parameters && req.body.result.parameters.employeeName) {
       data_layer.employeeName(req.body.result.parameters.employeeName, (results) => {
         var result = {
-          speech: results.length > 0 ? '<speak><say-as interpret-as="telephone">' + req.body.result.parameters.employeeName + '</speak> is ' + (results[0].FirstName + ' ' + results[0].LastName).toLocaleLowerCase() + '\'s employee identification number.' : ('no employee exists on ' + req.body.result.parameters.employeeName),
+          speech: results.length > 0 ? req.body.result.parameters.employeeName + ' is ' + (results[0].FirstName + ' ' + results[0].LastName).toLocaleLowerCase() + '\'s employee identification number.' : ('no employee exists on ' + req.body.result.parameters.employeeName),
           display: results.length > 0 ? req.body.result.parameters.employeeId + ' is ' + (results[0].FirstName + ' ' + results[0].LastName).toLocaleLowerCase() + '\'s employee identification number.' : ('no employee exists on ' + req.body.result.parameters.employeeName)
         };
         return res.status(200).json({ speech: result.speech, displayText: result.display, source: "meritus-bot" });
