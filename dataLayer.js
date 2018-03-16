@@ -13,10 +13,10 @@ module.exports.employees = function (emploeeId, callback) {
             connectTimeout: 30000
         });
         connection.connect();
-        connection.query("SELECT FirstName + ' ' + LastName as name  FROM employee WHERE ID =" + emploeeId, function (error, results, fields) {
+        connection.query("SELECT FirstName, LastName  FROM employee WHERE ID =" + emploeeId, function (error, results, fields) {
             if (error) throw error;
             connection.end();
-            callback(results.length > 0 ? results[0].name : ('no employee exists on ' + emploeeId));
+            callback(results.length > 0 ? (results[0].FirstName + ' ' + results[0].LastName) : ('no employee exists on ' + emploeeId));
         });
      });
 };
