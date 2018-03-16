@@ -9,7 +9,13 @@ restService.post('/employee', function (req, res) {
   // console.log(req.body.result.parameters.employeeId);
   // return res.json({ speech: speech, displayText: speech, source: "meritus-bot" });
   // data_layer.employees(21218, (response) => { res.status(200).json(response); });
-  data_layer.employees(req.body.result.parameters.employeeId, (response) => { return res.json({ speech: response, displayText: response, source: "meritus-bot" }); });
+  data_layer.employees(req.body.result.parameters.employeeId, (results) => { 
+    var result = {
+      speech: results.length > 0 ? '<speak><say-as interpret-as="telephone">' + emploeeId + '</speak> is ' +(results[0].FirstName + ' ' + results[0].LastName).toLocaleLowerCase() + '\'s employee identification number. \n am i right!.' : ('no employee exists on ' + emploeeId),
+      display: results.length > 0 ? emploeeId + ' is ' +(results[0].FirstName + ' ' + results[0].LastName).toLocaleLowerCase() + '\'s employee identification number.' : ('no employee exists on ' + emploeeId)
+    };
+    return res.json({ speech: result.speech, displayText: result.display, source: "meritus-bot" }); 
+  });
 });
 restService.post("/echo", function (req, res) {
   var speech = req.body.result && req.body.result.parameters && req.body.result.parameters.echoText ? req.body.result.parameters.echoText : "Seems like some problem. Speak again.";

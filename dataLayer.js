@@ -15,8 +15,7 @@ module.exports.employees = function (emploeeId, callback) {
         connection.connect();
         connection.query("SELECT FirstName, LastName  FROM employee WHERE ID =" + emploeeId, function (error, results, fields) {
             if (error) throw error;
-            connection.end();
-            callback(results.length > 0 ? '<speak><say-as interpret-as="telephone">' + emploeeId + '</speak> is ' +(results[0].FirstName + ' ' + results[0].LastName) + '\'s employee identification number. \n am i right!.' : ('no employee exists on ' + emploeeId));
+            callback(results);
         });
      });
 };
