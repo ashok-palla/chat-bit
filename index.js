@@ -45,7 +45,7 @@ restService.post('/meritus_bot', function (req, res) {
   }
   else if (req.body.result.metadata.intentName === "register_me_next") {
     if (req.body.result && req.body.result.parameters && req.body.result.parameters.email) {
-      var isMerEmail = req.body.result.parameters.email.split('@')[0];
+      var isMerEmail = req.body.result.parameters.email.split('@')[1];
       if (isMerEmail === 'merilytics.com') {
         return res.status(200).json({ speech: 'register me called', displayText: 'register me called', source: "meritus-bot" });
       }
