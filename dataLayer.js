@@ -16,7 +16,6 @@ module.exports.employees = function (emploeeId, callback) {
         connection.query("SELECT FirstName as name  FROM employee WHERE ID =" + emploeeId, function (error, results, fields) {
             if (error) throw error;
             connection.end();
-            console.log(results);
             callback(results.length > 0 ? results[0].name : ('no employee exists on ' + emploeeId));
         });
      });
