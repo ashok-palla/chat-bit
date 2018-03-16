@@ -8,7 +8,7 @@ restService.post('/employee', function (req, res) {
   if (req.body.result.metadata.intentName == "whose_employee_id") {
     console.log(req.body.result.metadata);
     if(req.body.result && req.body.result.parameters && req.body.result.parameters.employeeId) {
-      data_layer.employees(req.body.result.parameters.employeeId, (results) => {
+      data_layer.employeeId(req.body.result.parameters.employeeId, (results) => {
         var result = {
           speech: results.length > 0 ? '<speak><say-as interpret-as="telephone">' + req.body.result.parameters.employeeId + '</speak> is ' + (results[0].FirstName + ' ' + results[0].LastName).toLocaleLowerCase() + '\'s employee identification number.' : ('no employee exists on ' + req.body.result.parameters.employeeId),
           display: results.length > 0 ? req.body.result.parameters.employeeId + ' is ' + (results[0].FirstName + ' ' + results[0].LastName).toLocaleLowerCase() + '\'s employee identification number.' : ('no employee exists on ' + req.body.result.parameters.employeeId)
