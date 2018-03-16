@@ -1,5 +1,5 @@
 var mysql = require('mysql');
-var joi = require('joi');
+var Joi = require('joi');
 module.exports.employees = function (emploeeId, callback) {
     const schema = { emploeeId: Joi.number() };
     const value = { emploeeId: emploeeId };
