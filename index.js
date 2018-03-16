@@ -11,8 +11,8 @@ restService.post('/employee', function (req, res) {
   // data_layer.employees(21218, (response) => { res.status(200).json(response); });
   data_layer.employees(req.body.result.parameters.employeeId, (results) => { 
     var result = {
-      speech: results.length > 0 ? '<speak><say-as interpret-as="telephone">' + emploeeId + '</speak> is ' +(results[0].FirstName + ' ' + results[0].LastName).toLocaleLowerCase() + '\'s employee identification number. \n am i right!.' : ('no employee exists on ' + emploeeId),
-      display: results.length > 0 ? emploeeId + ' is ' +(results[0].FirstName + ' ' + results[0].LastName).toLocaleLowerCase() + '\'s employee identification number.' : ('no employee exists on ' + emploeeId)
+      speech: results.length > 0 ? '<speak><say-as interpret-as="telephone">' + req.body.result.parameters.employeeId + '</speak> is ' +(results[0].FirstName + ' ' + results[0].LastName).toLocaleLowerCase() + '\'s employee identification number. \n am i right!.' : ('no employee exists on ' + req.body.result.parameters.employeeId),
+      display: results.length > 0 ? req.body.result.parameters.employeeId + ' is ' +(results[0].FirstName + ' ' + results[0].LastName).toLocaleLowerCase() + '\'s employee identification number.' : ('no employee exists on ' + req.body.result.parameters.employeeId)
     };
     return res.json({ speech: result.speech, displayText: result.display, source: "meritus-bot" }); 
   });
