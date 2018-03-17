@@ -17,6 +17,30 @@ restService.post('/meritus_bot', function (req, res) {
         return res.status(200).json({ speech: result.speech, displayText: result.display, source: "meritus-bot" });
       });
     }
+    else if (req.body.result && req.body.result.parameters && req.body.result.parameters.employeeName && req.body.result.parameters.lastName !== "") {
+      data_layer.employeeName_lastName(req.body.result.parameters.employeeName, req.body.result.parameters.lastName, (results) => {
+        if (results.length === 0) {
+          return res.status(200).json({ speech: ('no employee exists on ' + req.body.result.parameters.employeeName), displayText: ('no employee exists with text of ' + req.body.result.parameters.employeeName), source: "meritus-bot" });
+        }
+        else if (results.length === 1) {
+          var result = {
+            speech: 'I found ' + (results[0].FirstName + ' ' + results[0].LastName).toLocaleLowerCase() + ' is a ' + (results[0].Designation).toLocaleLowerCase(),
+            display: 'I found ' + (results[0].FirstName + ' ' + results[0].LastName).toLocaleLowerCase() + ' is a ' + (results[0].Designation).toLocaleLowerCase()
+          };
+          return res.status(200).json({ speech: result.speech, displayText: result.display, source: "meritus-bot" });
+        }
+        else if (results.length > 1) {
+          var concatString = '';
+          results.forEach((item, key) => {
+            concatString += (key + 1) + '.' + (item.FirstName + ' ' + item.LastName).toLocaleLowerCase() + '\n';
+          });
+          return res.status(200).json({ speech: 'ohhhhhhhh there is ' + results.length + ' ' + req.body.result.parameters.employeeName + '\'s check the list', displayText: concatString, source: "meritus-bot" });
+        }
+        else {
+          return res.status(200).json({ speech: 'there', displayText: 'there', source: "meritus-bot" });
+        }
+      });
+    }
     else if (req.body.result && req.body.result.parameters && req.body.result.parameters.employeeName) {
       data_layer.employeeName(req.body.result.parameters.employeeName, (results) => {
         if (results.length === 0) {
@@ -41,7 +65,6 @@ restService.post('/meritus_bot', function (req, res) {
         }
       });
     }
-
   }
   else if (req.body.result.metadata.intentName === "register_me_next") {
     if (req.body.result && req.body.result.parameters && req.body.result.parameters.email) {
