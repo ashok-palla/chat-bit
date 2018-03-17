@@ -47,10 +47,22 @@ restService.post('/meritus_bot', function (req, res) {
     if (req.body.result && req.body.result.parameters && req.body.result.parameters.email) {
       var isMerEmail = req.body.result.parameters.email.split('@')[1];
       if (isMerEmail === 'merilytics.com') {
-        return res.status(200).json({ speech: 'register me called', displayText: 'register me called', source: "meritus-bot" });
+        data_layer.emailCheck(req.body.result.parameters.email, (results) => {
+          console.log(results);
+          if (results.length === 0) {
+            return res.status(200).json({ speech: ('no employee exists on ' + req.body.result.parameters.employeeName), displayText: ('no employee exists with text of ' + req.body.result.parameters.employeeName), source: "meritus-bot" });
+          }
+          else if (results.length === 1) {
+            var result = {
+              speech: (results[0].FirstName + ' ' + results[0].LastName).toLocaleLowerCase() + ', you are already registered employee.',
+              display: (results[0].FirstName + ' ' + results[0].LastName).toLocaleLowerCase() + ', you are already registered employee.'
+            };
+            return res.status(200).json({ speech: result.speech, displayText: result.display, source: "meritus-bot" });
+          }
+        });
       }
       else {
-        return res.status(200).json({ speech: 'please enter merilytics email only', displayText: 'please enter ,erilytics email only', source: "meritus-bot" });
+        return res.status(200).json({ speech: 'please enter merilytics email only', displayText: 'please enter merilytics email only', source: "meritus-bot" });
       }
     }
   }

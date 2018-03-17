@@ -30,3 +30,12 @@ module.exports.employeeName = function (emploeeName, callback) {
         callback(JSON.parse(JSON.stringify(results)));
     });
 };
+module.exports.emailCheck = function (email, callback) {
+    var connection = mysql.createConnection(credentials);
+    connection.connect();
+    connection.query("SELECT * FROM EMPLOYEE where EmailID = '" + email + "'", function (error, results, fields) {
+        if (error) console.log(error);
+        connection.end();
+        callback(JSON.parse(JSON.stringify(results)));
+    });
+};
