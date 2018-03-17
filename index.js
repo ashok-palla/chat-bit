@@ -24,8 +24,8 @@ restService.post('/meritus_bot', function (req, res) {
         }
         else if (results.length === 1) {
           var result = {
-            speech: req.body.result.parameters.employeeName + ' is match with ' + (results[0].FirstName + ' ' + results[0].LastName).toLocaleLowerCase() + '\'s employee.',
-            display: req.body.result.parameters.employeeName + ' is match with ' + (results[0].FirstName + ' ' + results[0].LastName).toLocaleLowerCase() + '\'s employee.'
+            speech: 'I found ' + req.body.result.parameters.employeeName + ' is a ' + (results[0].designation).toLocaleLowerCase(),
+            display: 'I found ' + req.body.result.parameters.employeeName + ' is a ' + (results[0].designation).toLocaleLowerCase()
           };
           return res.status(200).json({ speech: result.speech, displayText: result.display, source: "meritus-bot" });
         }
