@@ -29,7 +29,7 @@ module.exports.employeeId = function (emploeeId, callback) {
 module.exports.employeeName = function (emploeeName, callback) {
     var connection = mysql.createConnection(credentials);
     connection.connect();
-    connection.query("SELECT *  FROM employee E JOIN designation D ON D.ID = E.DesignationID WHERE E.FirstName like '%" + emploeeName + "' or E.LastName like '%" + emploeeName + "'", function (error, results, fields) {
+    connection.query("SELECT *  FROM employee E JOIN designation D ON D.ID = E.DesignationID WHERE E.FirstName like '%" + emploeeName + "%' or E.LastName like '%" + emploeeName + "%'", function (error, results, fields) {
         if (error) console.log(error);
         connection.end();
         callback(JSON.parse(JSON.stringify(results)));
@@ -38,7 +38,7 @@ module.exports.employeeName = function (emploeeName, callback) {
 module.exports.employeeName_lastName = function (emploeeName, lastName, callback) {
     var connection = mysql.createConnection(credentials);
     connection.connect();
-    connection.query("SELECT *  FROM employee E JOIN designation D ON D.ID = E.DesignationID WHERE E.FirstName like '%" + emploeeName + "' and E.LastName like '%" + lastName + "'", function (error, results, fields) {
+    connection.query("SELECT *  FROM employee E JOIN designation D ON D.ID = E.DesignationID WHERE E.FirstName like '%" + emploeeName + "%' and E.LastName like '%" + lastName + "%'", function (error, results, fields) {
         if (error) console.log(error);
         connection.end();
         callback(JSON.parse(JSON.stringify(results)));
