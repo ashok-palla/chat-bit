@@ -54,8 +54,8 @@ restService.post('/meritus_bot', function (req, res) {
           }
           else if (results.length === 1) {
             var result = {
-              speech: (results[0].FirstName + ' ' + results[0].LastName).toLocaleLowerCase() + ', you are already registered employee.',
-              display: (results[0].FirstName + ' ' + results[0].LastName).toLocaleLowerCase() + ', you are already registered employee.'
+              speech: (results[0].FirstName + ' ' + results[0].LastName).toLocaleLowerCase() + ', you are already registered employee and your employee identification is ' + results[0].ID,
+              display: (results[0].FirstName + ' ' + results[0].LastName).toLocaleLowerCase() + ', you are already registered employee and your employee identification is ' + results[0].ID
             };
             return res.status(200).json({ speech: result.speech, displayText: result.display, source: "meritus-bot" });
           }
