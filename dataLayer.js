@@ -8,18 +8,23 @@ const credentials = {
     connectTimeout: 30000
 };
 module.exports.employeeId = function (emploeeId, callback) {
-    const schema = { emploeeId: Joi.number().min(21100).max(30000).required() };
-    const value = { emploeeId: emploeeId };
-    Joi.validate(value, schema, (err, value) => {
-        if (err) callback('buddy, please check employee identification.');
-        var connection = mysql.createConnection(credentials);
-        connection.connect();
-        connection.query("SELECT FirstName, LastName  FROM employee WHERE ID =" + emploeeId, function (error, results, fields) {
-            if (error) throw error;
-            connection.end();
-            callback(results);
+    if (emploeeId >= 21100 && emploeeId <= 30000) {
+        const schema = { emploeeId: Joi.number().min(21100).max(30000).required() };
+        const value = { emploeeId: emploeeId };
+        Joi.validate(value, schema, (err, value) => {
+            if (err) callback('buddy, please check employee identification.');
+            var connection = mysql.createConnection(credentials);
+            connection.connect();
+            connection.query("SELECT FirstName, LastName  FROM employee WHERE ID =" + emploeeId, function (error, results, fields) {
+                if (error) throw error;
+                connection.end();
+                callback(results);
+            });
         });
-    });
+    }
+    else {
+        callback('buddy, please check employee identification.');
+    }
 };
 module.exports.employeeName = function (emploeeName, callback) {
     var connection = mysql.createConnection(credentials);
