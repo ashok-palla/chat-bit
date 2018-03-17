@@ -34,7 +34,7 @@ restService.post('/meritus_bot', function (req, res) {
           results.forEach((item, key) => {
             concatString += (key + 1) + '.' + (item.FirstName + ' ' + item.LastName).toLocaleLowerCase() + '\n';
           });
-          return res.status(200).json({ speech: 'there is ' + results.length + ' ' + req.body.result.parameters.employeeName + '\'s check the list', displayText: concatString, source: "meritus-bot" });
+          return res.status(200).json({ speech: 'ohhhhhhhh there is ' + results.length + ' ' + req.body.result.parameters.employeeName + '\'s check the list', displayText: concatString, source: "meritus-bot" });
         }
         else {
           return res.status(200).json({ speech: 'there', displayText: 'there', source: "meritus-bot" });
