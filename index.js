@@ -8,7 +8,10 @@ var data_layer = require('./dataLayer');
 restService.use(function (req, res, next) { next(); });
 restService.post('/meritus_bot', function (req, res) {
   if (req.body.result.metadata.intentName === "whose_employee_id") {
-    if (req.body.result && req.body.result.parameters && req.body.result.parameters.employeeId) {
+    if(req.body.result && req.body.result.parameters && req.body.result.parameters.employeeId === "" && req.body.result.parameters.employeeName === "" && req.body.result.parameters.lastName === ""){
+      return res.status(200).json({ speech: 'some of the times i am very difficult to find your name, please try different way', displayText: 'some of the times i am very difficult to find your name, please try different way', source: "meritus-bot" });
+    }
+    else if (req.body.result && req.body.result.parameters && req.body.result.parameters.employeeId) {
       data_layer.employeeId(req.body.result.parameters.employeeId, (results) => {
         var result = {
           speech: results.length > 0 ? req.body.result.parameters.employeeId + ' is ' + (results[0].FirstName + ' ' + results[0].LastName).toLocaleLowerCase() + '\'s employee identification number.' : ('no employee exists on ' + req.body.result.parameters.employeeId),
