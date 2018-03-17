@@ -24,8 +24,8 @@ restService.post('/meritus_bot', function (req, res) {
         }
         else if (results.length === 1) {
           var result = {
-            speech: 'I found ' + req.body.result.parameters.employeeName + ' is a ' + (results[0].designation).toLocaleLowerCase(),
-            display: 'I found ' + req.body.result.parameters.employeeName + ' is a ' + (results[0].designation).toLocaleLowerCase()
+            speech: 'I found ' + (results[0].FirstName + ' ' + results[0].LastName).toLocaleLowerCase() + ' is a ' + (results[0].Designation).toLocaleLowerCase(),
+            display: 'I found ' + (results[0].FirstName + ' ' + results[0].LastName).toLocaleLowerCase() + ' is a ' + (results[0].Designation).toLocaleLowerCase()
           };
           return res.status(200).json({ speech: result.speech, displayText: result.display, source: "meritus-bot" });
         }
@@ -241,6 +241,6 @@ restService.post("/slack-test", function (req, res) {
   });
 });
 
-restService.listen(process.env.PORT || 8001, function () {
+restService.listen(process.env.PORT || 8002, function () {
   console.log("Server up and listening");
 });
