@@ -25,7 +25,7 @@ restService.post('/meritus_bot', function (req, res) {
         else if (results.length === 1) {
           var result = {
             speech: req.body.result.parameters.employeeName + ' is match with ' + (results[0].FirstName + ' ' + results[0].LastName).toLocaleLowerCase() + '\'s employee.',
-            display: req.body.result.parameters.employeeId + ' is match with ' + (results[0].FirstName + ' ' + results[0].LastName).toLocaleLowerCase() + '\'s employee.'
+            display: req.body.result.parameters.employeeName + ' is match with ' + (results[0].FirstName + ' ' + results[0].LastName).toLocaleLowerCase() + '\'s employee.'
           };
           return res.status(200).json({ speech: result.speech, displayText: result.display, source: "meritus-bot" });
         }
