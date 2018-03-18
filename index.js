@@ -18,8 +18,8 @@ restService.post('/meritus_bot', function (req, res) {
       if (results.length === 1) {
         mailer.sendMail({ to: "ashok_palla@merilytics.com", subject: "Meritus Bot OTP", text: '123123' });
         return res.status(200).json({
-          speech: (results[0].FirstName + ' ' + results[0].LastName).toLocaleLowerCase() + ', \ni found ' + results[0].EmailID + ' is your email. I sent OTP to your mail please check and enter OTP',
-          displayText: (results[0].FirstName + ' ' + results[0].LastName).toLocaleLowerCase() + ', \ni found ' + results[0].EmailID + ' is your email. I sent OTP to your mail please check and enter OTP',
+          speech: (results[0].FirstName + ' ' + results[0].LastName).toLocaleLowerCase() + ', \ni found ' + results[0].EmailID + ' is your email. \nI sent OTP to your mail please check and enter OTP',
+          displayText: (results[0].FirstName + ' ' + results[0].LastName).toLocaleLowerCase() + ', \ni found ' + results[0].EmailID + ' is your email. \nI sent OTP to your mail please check and enter OTP',
           source: "meritus-bot"
         });
       }

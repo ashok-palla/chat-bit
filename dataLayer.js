@@ -9,7 +9,7 @@ const credentials = {
 };
 module.exports.employeeId = function (emploeeId, callback) {
     Joi.validate(emploeeId, Joi.number().min(21100).max(30000).required(), (err, value) => {
-        if (err) callback('buddy, please check employee identification.');
+        if (err) callback('buddy, \nplease check employee identification.');
         var connection = mysql.createConnection(credentials);
         connection.connect();
         connection.query("SELECT FirstName, LastName  FROM employee WHERE ID =" + emploeeId, function (error, results, fields) {
@@ -33,7 +33,7 @@ module.exports.employeeName_lastName = function (emploeeName, lastName, callback
     connection.connect();
     connection.query("SELECT *  FROM employee E JOIN designation D ON D.ID = E.DesignationID WHERE E.FirstName like '%" + emploeeName + "%' and E.LastName like '%" + lastName + "%'", function (error, results, fields) {
         connection.end();
-        if (error) callback('buddy, please check name.');
+        if (error) callback('buddy, \nplease check name.');
         callback(JSON.parse(JSON.stringify(results)));
     });
 };
@@ -42,18 +42,18 @@ module.exports.emailCheck = function (email, callback) {
     connection.connect();
     connection.query("SELECT * FROM EMPLOYEE where EmailID = '" + email + "'", function (error, results, fields) {
         connection.end();
-        if (error) callback('buddy, please check email.');
+        if (error) callback('buddy, \nplease check email.');
         callback(JSON.parse(JSON.stringify(results)));
     });
 };
 module.exports.employeeIdCheck = function (employeeId, callback) {
     Joi.validate(employeeId, Joi.number().integer().min(21100).max(30000).required(), function (err, value) {
-        if (err) callback('buddy, please check employee identification.');
+        if (err) callback('buddy, \nplease check employee identification.');
         var connection = mysql.createConnection(credentials);
         connection.connect();
         connection.query("SELECT * FROM EMPLOYEE where ID = " + employeeId, function (error, results, fields) {
             connection.end();
-            if (error) callback('buddy, please check employee identification.');
+            if (error) callback('buddy, \nplease check employee identification.');
             console.log(employeeId);
             callback(JSON.parse(JSON.stringify(results)));
         });
