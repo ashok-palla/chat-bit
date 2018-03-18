@@ -1,18 +1,16 @@
 var express = require("express");
 var bodyParser = require("body-parser");
 var restService = express();
-restService.use(errorHandler);
-function errorHandler(err, req, res, next) { console.log(err); }
-process.on('uncaughtException', function(err) {
-  console.log('Caught exception: ' + err);
-});
-restService.use(bodyParser.urlencoded({
-  extended: true
-}));
+restService.use(bodyParser.urlencoded({ extended: true }));
 restService.use(bodyParser.json());
 var data_layer = require('./dataLayer');
 var mailer = require('./nodemailer');
+
+restService.use(errorHandler);
 restService.use(function (req, res, next) { next(); });
+function errorHandler(err, req, res, next) { console.log(err); }
+process.on('uncaughtException', function (err) { console.log('Caught exception: ' + err); });
+
 restService.post('/meritus_bot', function (req, res) {
   // Start: Check Employee ID Exist or Not
   if (req.body.result.action === "check_employeeid") {
@@ -115,7 +113,7 @@ restService.post('/meritus_bot', function (req, res) {
             concatString += (key + 1) + '.' + (item.FirstName + ' ' + item.LastName).toLocaleLowerCase() + '\n';
           });
           return res.status(200).json({
-            speech: 'ohhhhhhhh there is ' + results.length + ' ' + req.body.result.parameters.employeeName + '\'s check the list',
+            speech: 'oh there is ' + results.length + ' ' + req.body.result.parameters.employeeName + '\'s check the list',
             displayText: concatString,
             source: "meritus-bot"
           });
