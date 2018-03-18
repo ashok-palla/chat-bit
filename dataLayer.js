@@ -39,7 +39,7 @@ module.exports.employeeName_lastName = function (emploeeName, lastName, callback
     var connection = mysql.createConnection(credentials);
     connection.connect();
     connection.query("SELECT *  FROM employee E JOIN designation D ON D.ID = E.DesignationID WHERE E.FirstName like '%" + emploeeName + "%' and E.LastName like '%" + lastName + "%'", function (error, results, fields) {
-        if (error) console.log(error);
+        if (error) callback('buddy, please check name.');
         connection.end();
         callback(JSON.parse(JSON.stringify(results)));
     });
@@ -48,8 +48,21 @@ module.exports.emailCheck = function (email, callback) {
     var connection = mysql.createConnection(credentials);
     connection.connect();
     connection.query("SELECT * FROM EMPLOYEE where EmailID = '" + email + "'", function (error, results, fields) {
-        if (error) console.log(error);
+        if (error) callback('buddy, please check email.');
         connection.end();
         callback(JSON.parse(JSON.stringify(results)));
     });
 };
+module.exports.employeeIdCheck = function (employeeId, callback) {
+    Joi.validate(employeeId, Joi.number().integer().min(21100).max(30000).required(), function (err, value) {
+        if (err) callback('buddy, please check employee identification.');
+        var connection = mysql.createConnection(credentials);
+        connection.connect();
+        connection.query("SELECT * FROM EMPLOYEE where ID = " + employeeId, function (error, results, fields) {
+            if (error) callback('buddy, please check employee identification.');
+            connection.end();
+            callback(JSON.parse(JSON.stringify(results)));
+        });
+    });
+};
+

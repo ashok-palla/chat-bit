@@ -1,99 +1,168 @@
 var express = require("express");
 var bodyParser = require("body-parser");
 var restService = express();
-restService.use(bodyParser.urlencoded({ extended: true }));
+restService.use(bodyParser.urlencoded({
+  extended: true
+}));
 restService.use(bodyParser.json());
 var data_layer = require('./dataLayer');
 
-restService.use(function (req, res, next) { next(); });
+restService.use(function (req, res, next) {
+  next();
+});
 restService.post('/meritus_bot', function (req, res) {
-  if (req.body.result.metadata.intentName === "whose_employee_id") {
-    if(req.body.result && req.body.result.parameters && req.body.result.parameters.employeeId === "" && req.body.result.parameters.employeeName === "" && req.body.result.parameters.lastName === ""){
-      return res.status(200).json({ speech: 'some of the times i am very difficult to find your question, please try different way', displayText: 'some of the times i am very difficult to find your question, please try different way', source: "meritus-bot" });
-    }
-    else if (req.body.result && req.body.result.parameters && req.body.result.parameters.employeeId) {
+  console.log(req.body.result.parameters);
+  // Start: Check Employee ID Exist or Not
+  if (req.body.result.action === "check_employeeid") {
+    data_layer.employeeIdCheck(req.body.result.parameters.employeeId, (results) => {
+      if (results.length === 1) {
+        return res.status(200).json({
+          speech: (results[0].FirstName + ' ' + results[0].LastName).toLocaleLowerCase() + ', i found ' + results[0].EmailID + ' is your email. I sent OTP to your mail please check and enter OTP',
+          displayText: (results[0].FirstName + ' ' + results[0].LastName).toLocaleLowerCase() + ', i found ' + results[0].EmailID + ' is your email. I sent OTP to your mail please check and enter OTP',
+          source: "meritus-bot"
+        });
+      }
+      else {
+        return res.status(200).json({
+          speech: results,
+          displayText: results,
+          source: "meritus-bot"
+        });
+      }
+    });
+  }
+  // End: Check Employee ID Exist or Not
+
+  else if (req.body.result.metadata.intentName === "whose_employee_id") {
+    if (req.body.result && req.body.result.parameters && req.body.result.parameters.employeeId === "" && req.body.result.parameters.employeeName === "" && req.body.result.parameters.lastName === "") {
+      return res.status(200).json({
+        speech: 'some of the times i am very difficult to find your question, please try different way',
+        displayText: 'some of the times i am very difficult to find your question, please try different way',
+        source: "meritus-bot"
+      });
+    } else if (req.body.result && req.body.result.parameters && req.body.result.parameters.employeeId) {
       data_layer.employeeId(req.body.result.parameters.employeeId, (results) => {
         var result = {
           speech: results.length > 0 ? req.body.result.parameters.employeeId + ' is ' + (results[0].FirstName + ' ' + results[0].LastName).toLocaleLowerCase() + '\'s employee identification number.' : ('no employee exists on ' + req.body.result.parameters.employeeId),
           display: results.length > 0 ? req.body.result.parameters.employeeId + ' is ' + (results[0].FirstName + ' ' + results[0].LastName).toLocaleLowerCase() + '\'s employee identification number.' : ('no employee exists on ' + req.body.result.parameters.employeeId)
         };
-        return res.status(200).json({ speech: result.speech, displayText: result.display, source: "meritus-bot" });
+        return res.status(200).json({
+          speech: result.speech,
+          displayText: result.display,
+          source: "meritus-bot"
+        });
       });
-    }
-    else if (req.body.result && req.body.result.parameters && req.body.result.parameters.employeeName && req.body.result.parameters.lastName !== "") {
+    } else if (req.body.result && req.body.result.parameters && req.body.result.parameters.employeeName && req.body.result.parameters.lastName !== "") {
       data_layer.employeeName_lastName(req.body.result.parameters.employeeName, req.body.result.parameters.lastName, (results) => {
         if (results.length === 0) {
-          return res.status(200).json({ speech: ('no employee exists on ' + req.body.result.parameters.employeeName), displayText: ('no employee exists with text of ' + req.body.result.parameters.employeeName), source: "meritus-bot" });
-        }
-        else if (results.length === 1) {
+          return res.status(200).json({
+            speech: ('no employee exists on ' + req.body.result.parameters.employeeName),
+            displayText: ('no employee exists with text of ' + req.body.result.parameters.employeeName),
+            source: "meritus-bot"
+          });
+        } else if (results.length === 1) {
           var result = {
             speech: 'I found ' + (results[0].FirstName + ' ' + results[0].LastName).toLocaleLowerCase() + ' is a ' + (results[0].Designation).toLocaleLowerCase(),
             display: 'I found ' + (results[0].FirstName + ' ' + results[0].LastName).toLocaleLowerCase() + ' is a ' + (results[0].Designation).toLocaleLowerCase()
           };
-          return res.status(200).json({ speech: result.speech, displayText: result.display, source: "meritus-bot" });
-        }
-        else if (results.length > 1) {
+          return res.status(200).json({
+            speech: result.speech,
+            displayText: result.display,
+            source: "meritus-bot"
+          });
+        } else if (results.length > 1) {
           var concatString = '';
           results.forEach((item, key) => {
             concatString += (key + 1) + '.' + (item.FirstName + ' ' + item.LastName).toLocaleLowerCase() + '\n';
           });
-          return res.status(200).json({ speech: 'ohhhhhhhh there is ' + results.length + ' ' + req.body.result.parameters.employeeName + '\'s check the list', displayText: concatString, source: "meritus-bot" });
-        }
-        else {
-          return res.status(200).json({ speech: 'there', displayText: 'there', source: "meritus-bot" });
+          return res.status(200).json({
+            speech: 'ohhhhhhhh there is ' + results.length + ' ' + req.body.result.parameters.employeeName + '\'s check the list',
+            displayText: concatString,
+            source: "meritus-bot"
+          });
+        } else {
+          return res.status(200).json({
+            speech: 'there',
+            displayText: 'there',
+            source: "meritus-bot"
+          });
         }
       });
-    }
-    else if (req.body.result && req.body.result.parameters && req.body.result.parameters.employeeName) {
+    } else if (req.body.result && req.body.result.parameters && req.body.result.parameters.employeeName) {
       data_layer.employeeName(req.body.result.parameters.employeeName, (results) => {
         if (results.length === 0) {
-          return res.status(200).json({ speech: ('no employee exists on ' + req.body.result.parameters.employeeName), displayText: ('no employee exists with text of ' + req.body.result.parameters.employeeName), source: "meritus-bot" });
-        }
-        else if (results.length === 1) {
+          return res.status(200).json({
+            speech: ('no employee exists on ' + req.body.result.parameters.employeeName),
+            displayText: ('no employee exists with text of ' + req.body.result.parameters.employeeName),
+            source: "meritus-bot"
+          });
+        } else if (results.length === 1) {
           var result = {
             speech: 'I found ' + (results[0].FirstName + ' ' + results[0].LastName).toLocaleLowerCase() + ' is a ' + (results[0].Designation).toLocaleLowerCase(),
             display: 'I found ' + (results[0].FirstName + ' ' + results[0].LastName).toLocaleLowerCase() + ' is a ' + (results[0].Designation).toLocaleLowerCase()
           };
-          return res.status(200).json({ speech: result.speech, displayText: result.display, source: "meritus-bot" });
-        }
-        else if (results.length > 1) {
+          return res.status(200).json({
+            speech: result.speech,
+            displayText: result.display,
+            source: "meritus-bot"
+          });
+        } else if (results.length > 1) {
           var concatString = '';
           results.forEach((item, key) => {
             concatString += (key + 1) + '.' + (item.FirstName + ' ' + item.LastName).toLocaleLowerCase() + '\n';
           });
-          return res.status(200).json({ speech: 'ohhhhhhhh there is ' + results.length + ' ' + req.body.result.parameters.employeeName + '\'s check the list', displayText: concatString, source: "meritus-bot" });
-        }
-        else {
-          return res.status(200).json({ speech: 'there', displayText: 'there', source: "meritus-bot" });
+          return res.status(200).json({
+            speech: 'ohhhhhhhh there is ' + results.length + ' ' + req.body.result.parameters.employeeName + '\'s check the list',
+            displayText: concatString,
+            source: "meritus-bot"
+          });
+        } else {
+          return res.status(200).json({
+            speech: 'there',
+            displayText: 'there',
+            source: "meritus-bot"
+          });
         }
       });
     }
-  }
-  else if (req.body.result.metadata.intentName === "register_me_next") {
+  } else if (req.body.result.metadata.intentName === "register_me_next") {
     if (req.body.result && req.body.result.parameters && req.body.result.parameters.email) {
       var isMerEmail = req.body.result.parameters.email.split('@')[1];
       if (isMerEmail === 'merilytics.com') {
         data_layer.emailCheck(req.body.result.parameters.email, (results) => {
           console.log(results);
           if (results.length === 0) {
-            return res.status(200).json({ speech: ('no employee exists on ' + req.body.result.parameters.employeeName), displayText: ('no employee exists with text of ' + req.body.result.parameters.employeeName), source: "meritus-bot" });
-          }
-          else if (results.length === 1) {
+            return res.status(200).json({
+              speech: ('no employee exists on ' + req.body.result.parameters.employeeName),
+              displayText: ('no employee exists with text of ' + req.body.result.parameters.employeeName),
+              source: "meritus-bot"
+            });
+          } else if (results.length === 1) {
             var result = {
               speech: (results[0].FirstName + ' ' + results[0].LastName).toLocaleLowerCase() + ', you are already registered employee and your employee identification is ' + results[0].ID,
               display: (results[0].FirstName + ' ' + results[0].LastName).toLocaleLowerCase() + ', you are already registered employee and your employee identification is ' + results[0].ID
             };
-            return res.status(200).json({ speech: result.speech, displayText: result.display, source: "meritus-bot" });
+            return res.status(200).json({
+              speech: result.speech,
+              displayText: result.display,
+              source: "meritus-bot"
+            });
           }
         });
-      }
-      else {
-        return res.status(200).json({ speech: 'please enter merilytics email only', displayText: 'please enter merilytics email only', source: "meritus-bot" });
+      } else {
+        return res.status(200).json({
+          speech: 'please enter merilytics email only',
+          displayText: 'please enter merilytics email only',
+          source: "meritus-bot"
+        });
       }
     }
-  }
-  else {
-    return res.status(200).json({ speech: 'i did\'t get you', displayText: 'i did\'t get you', source: "meritus-bot" });
+  } else {
+    return res.status(200).json({
+      speech: 'i did\'t get you',
+      displayText: 'i did\'t get you',
+      source: "meritus-bot"
+    });
   }
 });
 restService.post("/echo", function (req, res) {
