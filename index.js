@@ -1,15 +1,18 @@
 var express = require("express");
 var bodyParser = require("body-parser");
 var restService = express();
+restService.use(errorHandler);
+function errorHandler(err, req, res, next) { console.log(err); }
+process.on('uncaughtException', function(err) {
+  console.log('Caught exception: ' + err);
+});
 restService.use(bodyParser.urlencoded({
   extended: true
 }));
 restService.use(bodyParser.json());
 var data_layer = require('./dataLayer');
 var mailer = require('./nodemailer');
-restService.use(function (req, res, next) {
-  next();
-});
+restService.use(function (req, res, next) { next(); });
 restService.post('/meritus_bot', function (req, res) {
   // Start: Check Employee ID Exist or Not
   if (req.body.result.action === "check_employeeid") {
@@ -130,7 +133,6 @@ restService.post('/meritus_bot', function (req, res) {
       var isMerEmail = req.body.result.parameters.email.split('@')[1];
       if (isMerEmail === 'merilytics.com') {
         data_layer.emailCheck(req.body.result.parameters.email, (results) => {
-          console.log(results);
           if (results.length === 0) {
             return res.status(200).json({
               speech: ('no employee exists on ' + req.body.result.parameters.employeeName),
