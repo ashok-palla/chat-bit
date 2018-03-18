@@ -6,16 +6,16 @@ restService.use(bodyParser.urlencoded({
 }));
 restService.use(bodyParser.json());
 var data_layer = require('./dataLayer');
-
+var mailer = require('./nodemailer');
 restService.use(function (req, res, next) {
   next();
 });
 restService.post('/meritus_bot', function (req, res) {
-  console.log(req.body.result.parameters);
   // Start: Check Employee ID Exist or Not
   if (req.body.result.action === "check_employeeid") {
     data_layer.employeeIdCheck(req.body.result.parameters.employeeId, (results) => {
       if (results.length === 1) {
+        mailer.sendMail({ to: "ashok_palla@merilytics.com", subject: "Meritus Bot OTP", text: '123123' });
         return res.status(200).json({
           speech: (results[0].FirstName + ' ' + results[0].LastName).toLocaleLowerCase() + ', i found ' + results[0].EmailID + ' is your email. I sent OTP to your mail please check and enter OTP',
           displayText: (results[0].FirstName + ' ' + results[0].LastName).toLocaleLowerCase() + ', i found ' + results[0].EmailID + ' is your email. I sent OTP to your mail please check and enter OTP',

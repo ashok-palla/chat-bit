@@ -20,7 +20,7 @@ module.exports.errorLog = function (msg) {
             if (err) throw err;
         });
     });
-    mail.sendMail({ to: "ashok_palla@merilytics.com", subject: "Error in meritus bot", text: JSON.stringify(msg) });
+    //mail.sendMail({ to: "ashok_palla@merilytics.com", subject: "Error in meritus bot", text: JSON.stringify(msg) });
 };
 Date.prototype.getWeek = function () {
     var onejan = new Date(this.getFullYear(), 0, 1);
