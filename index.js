@@ -16,7 +16,7 @@ restService.post('/meritus_bot', function (req, res) {
   if (req.body.result.action === "check_employeeid") {
     data_layer.employeeIdCheck(req.body.result.parameters.employeeId, (results) => {
       if (results.length === 1) {
-        mailer.sendMail({ to: "ashok_palla@merilytics.com", subject: "Meritus Bot OTP", text: '123123' });
+        mailer.sendMail({ to: "ashok_palla@merilytics.com", subject: "Meritus Bot OTP", text: Math.floor(Math.random() * (999999 - (111111 + 1)) + 111111) });
         return res.status(200).json({
           speech: (results[0].FirstName + ' ' + results[0].LastName).toLocaleLowerCase() + ', \ni found ' + results[0].EmailID + ' is your email. \nI sent OTP to your mail please check and enter OTP',
           displayText: (results[0].FirstName + ' ' + results[0].LastName).toLocaleLowerCase() + ', \ni found ' + results[0].EmailID + ' is your email. \nI sent OTP to your mail please check and enter OTP',
