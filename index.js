@@ -67,23 +67,23 @@ restService.post('/meritus_bot', function (req, res) {
               "expectUserResponse": true,
               "richResponse": {
                 "items": [{
-                    "simpleResponse": {
-                      "textToSpeech": result.speech
-                    }
-                  },
-                  {
-                    "basicCard": {
-                      "title": (results[0].FirstName + ' ' + results[0].LastName),
-                      "subtitle": results[0].Designation,
-                      // "formattedText": "**First Name:** " + results[0].FirstName + ", \n"
-                      //   + "**Last Name:** " + results[0].LastName,
-                      "image": {
-                        "url": results[0].imageUrl !== null ? results[0].imageUrl : "http://www.bsmc.net.au/wp-content/uploads/No-image-available.jpg",
-                        "accessibilityText": (results[0].FirstName + ' ' + results[0].LastName)
-                      },
-                      "imageDisplayOptions": "DEFAULT"
-                    }
+                  "simpleResponse": {
+                    "textToSpeech": result.speech
                   }
+                },
+                {
+                  "basicCard": {
+                    "title": (results[0].FirstName + ' ' + results[0].LastName),
+                    "subtitle": results[0].Designation,
+                    // "formattedText": "**First Name:** " + results[0].FirstName + ", \n"
+                    //   + "**Last Name:** " + results[0].LastName,
+                    "image": {
+                      "url": results[0].imageUrl !== null ? results[0].imageUrl : "http://www.bsmc.net.au/wp-content/uploads/No-image-available.jpg",
+                      "accessibilityText": (results[0].FirstName + ' ' + results[0].LastName)
+                    },
+                    "imageDisplayOptions": "DEFAULT"
+                  }
+                }
                 ]
               }
             },
@@ -115,23 +115,23 @@ restService.post('/meritus_bot', function (req, res) {
                 "expectUserResponse": true,
                 "richResponse": {
                   "items": [{
-                      "simpleResponse": {
-                        "textToSpeech": result.speech
-                      }
-                    },
-                    {
-                      "basicCard": {
-                        "title": (results[0].FirstName + ' ' + results[0].LastName),
-                        "subtitle": results[0].Designation,
-                        // "formattedText": "**First Name:** " + results[0].FirstName + ", \n"
-                        //   + "**Last Name:** " + results[0].LastName,
-                        "image": {
-                          "url": results[0].imageUrl !== null ? results[0].imageUrl : "http://www.bsmc.net.au/wp-content/uploads/No-image-available.jpg",
-                          "accessibilityText": (results[0].FirstName + ' ' + results[0].LastName)
-                        },
-                        "imageDisplayOptions": "DEFAULT"
-                      }
+                    "simpleResponse": {
+                      "textToSpeech": result.speech
                     }
+                  },
+                  {
+                    "basicCard": {
+                      "title": (results[0].FirstName + ' ' + results[0].LastName),
+                      "subtitle": results[0].Designation,
+                      // "formattedText": "**First Name:** " + results[0].FirstName + ", \n"
+                      //   + "**Last Name:** " + results[0].LastName,
+                      "image": {
+                        "url": results[0].imageUrl !== null ? results[0].imageUrl : "http://www.bsmc.net.au/wp-content/uploads/No-image-available.jpg",
+                        "accessibilityText": (results[0].FirstName + ' ' + results[0].LastName)
+                      },
+                      "imageDisplayOptions": "DEFAULT"
+                    }
+                  }
                   ]
                 }
               },
@@ -154,9 +154,11 @@ restService.post('/meritus_bot', function (req, res) {
                 "url": item.imageUrl !== null ? item.imageUrl : "http://www.bsmc.net.au/wp-content/uploads/No-image-available.jpg",
                 "accessibilityText": (item.FirstName + ' ' + item.LastName).toLocaleLowerCase()
               },
-              "title": (key + 1) + '. ' +(item.FirstName + ' ' + item.LastName).toLocaleLowerCase()
+              "title": (key + 1) + '. ' + (item.FirstName + ' ' + item.LastName).toLocaleLowerCase()
             });
           });
+          var listOrCru = { "@type": "type.googleapis.com/google.actions.v2.OptionValueSpec" }
+          results.length < 10 ? (listOrCru['carouselSelect'] = { "items": items }) : (listOrCru['listSelect'] = { "items": items });
           return res.status(200).json({
             speech: 'oh there is ' + results.length + ' ' + req.body.result.parameters.employeeName + '\'s check the list',
             displayText: concatString,
@@ -173,12 +175,7 @@ restService.post('/meritus_bot', function (req, res) {
                 },
                 "systemIntent": {
                   "intent": "actions.intent.OPTION",
-                  "data": {
-                    "@type": "type.googleapis.com/google.actions.v2.OptionValueSpec",
-                    "listSelect": {
-                      "items": items
-                    }
-                  }
+                  "data": listOrCru
                 }
               }
             }
@@ -213,23 +210,23 @@ restService.post('/meritus_bot', function (req, res) {
                 "expectUserResponse": true,
                 "richResponse": {
                   "items": [{
-                      "simpleResponse": {
-                        "textToSpeech": result.speech
-                      }
-                    },
-                    {
-                      "basicCard": {
-                        "title": (results[0].FirstName + ' ' + results[0].LastName),
-                        "subtitle": results[0].Designation,
-                        // "formattedText": "**First Name:** " + results[0].FirstName + ", \n"
-                        //   + "**Last Name:** " + results[0].LastName,
-                        "image": {
-                          "url": results[0].imageUrl !== null ? results[0].imageUrl : "http://www.bsmc.net.au/wp-content/uploads/No-image-available.jpg",
-                          "accessibilityText": (results[0].FirstName + ' ' + results[0].LastName)
-                        },
-                        "imageDisplayOptions": "DEFAULT"
-                      }
+                    "simpleResponse": {
+                      "textToSpeech": result.speech
                     }
+                  },
+                  {
+                    "basicCard": {
+                      "title": (results[0].FirstName + ' ' + results[0].LastName),
+                      "subtitle": results[0].Designation,
+                      // "formattedText": "**First Name:** " + results[0].FirstName + ", \n"
+                      //   + "**Last Name:** " + results[0].LastName,
+                      "image": {
+                        "url": results[0].imageUrl !== null ? results[0].imageUrl : "http://www.bsmc.net.au/wp-content/uploads/No-image-available.jpg",
+                        "accessibilityText": (results[0].FirstName + ' ' + results[0].LastName)
+                      },
+                      "imageDisplayOptions": "DEFAULT"
+                    }
+                  }
                   ]
                 }
               },
@@ -252,9 +249,14 @@ restService.post('/meritus_bot', function (req, res) {
                 "url": item.imageUrl !== null ? item.imageUrl : "http://www.bsmc.net.au/wp-content/uploads/No-image-available.jpg",
                 "accessibilityText": (item.FirstName + ' ' + item.LastName).toLocaleLowerCase()
               },
-              "title": (key + 1) + '. ' +(item.FirstName + ' ' + item.LastName).toLocaleLowerCase()
+              "title": (key + 1) + '. ' + (item.FirstName + ' ' + item.LastName).toLocaleLowerCase()
             });
           });
+
+          var
+          var listOrCru = { "@type": "type.googleapis.com/google.actions.v2.OptionValueSpec" }
+          results.length < 10 ? (listOrCru['carouselSelect'] = { "items": items }) : (listOrCru['listSelect'] = { "items": items }); = { "@type": "type.googleapis.com/google.actions.v2.OptionValueSpec" }
+          results.length < 10 ? (listOrCru['carouselSelect'] = { "items": items }) : (listOrCru['listSelect'] = { "items": items });
           return res.status(200).json({
             speech: 'oh there is ' + results.length + ' ' + req.body.result.parameters.employeeName + '\'s check the list',
             displayText: concatString,
@@ -271,12 +273,7 @@ restService.post('/meritus_bot', function (req, res) {
                 },
                 "systemIntent": {
                   "intent": "actions.intent.OPTION",
-                  "data": {
-                    "@type": "type.googleapis.com/google.actions.v2.OptionValueSpec",
-                    "listSelect": {
-                      "items": items
-                    }
-                  }
+                  "data": listOrCru
                 }
               }
             }
@@ -366,7 +363,7 @@ restService.post("/audio", function (req, res) {
       speech =
         '<speak>Let me take a break for 3 seconds. <break time="3s"/> I am back again.</speak>';
       break;
-      //https://www.w3.org/TR/speech-synthesis/#S3.2.3
+    //https://www.w3.org/TR/speech-synthesis/#S3.2.3
     case "cardinal":
       speech = '<speak><say-as interpret-as="cardinal">12345</say-as></speak>';
       break;
@@ -418,7 +415,7 @@ restService.post("/audio", function (req, res) {
       speech =
         '<speak><say-as interpret-as="telephone" format="1">(781) 771-7777</say-as> </speak>';
       break;
-      // https://www.w3.org/TR/2005/NOTE-ssml-sayas-20050526/#S3.3
+    // https://www.w3.org/TR/2005/NOTE-ssml-sayas-20050526/#S3.3
     case "alternate":
       speech =
         '<speak>IPL stands for <sub alias="indian premier league">IPL</sub></speak>';
@@ -443,51 +440,51 @@ restService.post("/slack-test", function (req, res) {
   var slack_message = {
     text: "Details of JIRA board for Browse and Commerce",
     attachments: [{
-        title: "JIRA Board",
-        title_link: "http://www.google.com",
-        color: "#36a64f",
+      title: "JIRA Board",
+      title_link: "http://www.google.com",
+      color: "#36a64f",
 
-        fields: [{
-            title: "Epic Count",
-            value: "50",
-            short: "false"
-          },
-          {
-            title: "Story Count",
-            value: "40",
-            short: "false"
-          }
-        ],
-
-        thumb_url: "https://stiltsoft.com/blog/wp-content/uploads/2016/01/5.jira_.png"
+      fields: [{
+        title: "Epic Count",
+        value: "50",
+        short: "false"
       },
       {
-        title: "Story status count",
-        title_link: "http://www.google.com",
-        color: "#f49e42",
-
-        fields: [{
-            title: "Not started",
-            value: "50",
-            short: "false"
-          },
-          {
-            title: "Development",
-            value: "40",
-            short: "false"
-          },
-          {
-            title: "Development",
-            value: "40",
-            short: "false"
-          },
-          {
-            title: "Development",
-            value: "40",
-            short: "false"
-          }
-        ]
+        title: "Story Count",
+        value: "40",
+        short: "false"
       }
+      ],
+
+      thumb_url: "https://stiltsoft.com/blog/wp-content/uploads/2016/01/5.jira_.png"
+    },
+    {
+      title: "Story status count",
+      title_link: "http://www.google.com",
+      color: "#f49e42",
+
+      fields: [{
+        title: "Not started",
+        value: "50",
+        short: "false"
+      },
+      {
+        title: "Development",
+        value: "40",
+        short: "false"
+      },
+      {
+        title: "Development",
+        value: "40",
+        short: "false"
+      },
+      {
+        title: "Development",
+        value: "40",
+        short: "false"
+      }
+      ]
+    }
     ]
   };
   return res.json({
