@@ -74,11 +74,11 @@ restService.post('/meritus_bot', function (req, res) {
                   // },
                   {
                     "basicCard": {
-                      "title": (results[0].FirstName + ' ' + results[0].LastName).toUpperCase(),
-                      "formattedText": "42 is an even composite number",
+                      "title": (results[0].FirstName + ' ' + results[0].LastName).toLocaleLowerCase(),
+                      "formattedText": "42 is an even composite number. It\n    is composed of three distinct prime numbers multiplied together. It\n    has a total of eight divisors. 42 is an abundant number, because the\n    sum of its proper divisors 54 is greater than itself. To count from\n    1 to 42 would take you about twenty-one…",
                       "image": {
-                        "url": "https://c1.staticflickr.com/3/2841/11529684343_8dd9c26cff.jpg",
-                        "accessibilityText": (results[0].FirstName + ' ' + results[0].LastName)
+                        "url": "https://example.google.com/42.png",
+                        "accessibilityText": "(results[0].FirstName + ' ' + results[0].LastName).toLocaleLowerCase()"
                       },
                       "imageDisplayOptions": "WHITE"
                     }
