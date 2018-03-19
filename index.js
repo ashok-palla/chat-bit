@@ -189,19 +189,21 @@ restService.post('/meritus_bot', function (req, res) {
               "google": {
                 "expectUserResponse": true,
                 "richResponse": {
-                  "items": [{
-                    "simpleResponse": {
-                      "textToSpeech": "Choose a item"
+                  "items": [
+                    {
+                      "simpleResponse": {
+                        "textToSpeech": "Choose a item"
+                      }
                     }
-                  }]
+                  ]
                 },
                 "systemIntent": {
                   "intent": "actions.intent.OPTION",
                   "data": {
                     "@type": "type.googleapis.com/google.actions.v2.OptionValueSpec",
-                    "listSelect": {
-                      "title": "Hello",
-                      "items": [{
+                    "carouselSelect": {
+                      "items": [
+                        {
                           "optionInfo": {
                             "key": "first title"
                           },
