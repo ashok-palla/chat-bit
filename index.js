@@ -185,12 +185,12 @@ restService.post('/meritus_bot', function (req, res) {
               "optionInfo": {
                 "key": "who is " + item.empId
               },
-              "description": results[0].Designation,
+              "description": item.Designation,
               "image": {
-                "url": results[0].imageUrl !== null ? results[0].imageUrl : "http://www.bsmc.net.au/wp-content/uploads/No-image-available.jpg",
+                "url": item.imageUrl !== null ? item.imageUrl : "http://www.bsmc.net.au/wp-content/uploads/No-image-available.jpg",
                 "accessibilityText": (item.FirstName + ' ' + item.LastName).toLocaleLowerCase()
               },
-              "title": (item.FirstName + ' ' + item.LastName).toLocaleLowerCase()
+              "title": key + '. ' +(item.FirstName + ' ' + item.LastName).toLocaleLowerCase()
             });
           });
           return res.status(200).json({
