@@ -12,7 +12,7 @@ module.exports.employeeId = function (emploeeId, callback) {
         if (err) callback('buddy, \nplease check employee identification.');
         var connection = mysql.createConnection(credentials);
         connection.connect();
-        connection.query("SELECT FirstName, LastName  FROM employee WHERE ID =" + emploeeId, function (error, results, fields) {
+        connection.query("SELECT * FROM employee E JOIN designation D ON D.ID = E.DesignationID WHERE E.ID =" + emploeeId, function (error, results, fields) {
             connection.end();
             if (error) callback(error);
             callback(results);
@@ -22,7 +22,7 @@ module.exports.employeeId = function (emploeeId, callback) {
 module.exports.employeeName = function (emploeeName, callback) {
     var connection = mysql.createConnection(credentials);
     connection.connect();
-    connection.query("SELECT *  FROM employee E JOIN designation D ON D.ID = E.DesignationID WHERE E.FirstName like '%" + emploeeName + "%' or E.LastName like '%" + emploeeName + "%'", function (error, results, fields) {
+    connection.query("SELECT * FROM employee E JOIN designation D ON D.ID = E.DesignationID WHERE E.FirstName like '%" + emploeeName + "%' or E.LastName like '%" + emploeeName + "%'", function (error, results, fields) {
         connection.end();
         if (error) callback(error);
         callback(JSON.parse(JSON.stringify(results)));
