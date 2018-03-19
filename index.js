@@ -79,7 +79,7 @@ restService.post('/meritus_bot', function (req, res) {
                       // "formattedText": "**First Name:** " + results[0].FirstName + ", \n"
                       //   + "**Last Name:** " + results[0].LastName,
                       "image": {
-                        "url": results[0].ID === 21218 ? "https://c1.staticflickr.com/3/2841/11529684343_8dd9c26cff.jpg" : "http://www.bsmc.net.au/wp-content/uploads/No-image-available.jpg",
+                        "url": results[0].imageUrl !== null ? results[0].imageUrl : "http://www.bsmc.net.au/wp-content/uploads/No-image-available.jpg",
                         "accessibilityText": (results[0].FirstName + ' ' + results[0].LastName)
                       },
                       "imageDisplayOptions": "DEFAULT"
@@ -128,7 +128,7 @@ restService.post('/meritus_bot', function (req, res) {
                         // "formattedText": "**First Name:** " + results[0].FirstName + ", \n"
                         //   + "**Last Name:** " + results[0].LastName,
                         "image": {
-                          "url": results[0].ID === 21218 ? "https://c1.staticflickr.com/3/2841/11529684343_8dd9c26cff.jpg" : "http://www.bsmc.net.au/wp-content/uploads/No-image-available.jpg",
+                          "url": results[0].imageUrl !== null ? results[0].imageUrl : "http://www.bsmc.net.au/wp-content/uploads/No-image-available.jpg",
                           "accessibilityText": (results[0].FirstName + ' ' + results[0].LastName)
                         },
                         "imageDisplayOptions": "DEFAULT"
