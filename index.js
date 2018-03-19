@@ -61,7 +61,21 @@ restService.post('/meritus_bot', function (req, res) {
         return res.status(200).json({
           speech: result.speech,
           displayText: result.display,
-          source: "meritus-bot"
+          source: "meritus-bot",
+          "messages": [
+            {
+              "platform": "google",
+              "suggestions": [
+                {
+                  "title": "Chip One"
+                },
+                {
+                  "title": "Chip Two"
+                }
+              ],
+              "type": "suggestion_chips"
+            }
+          ]
         });
       });
     } else if (req.body.result && req.body.result.parameters && req.body.result.parameters.employeeName && req.body.result.parameters.lastName !== "") {
