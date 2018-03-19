@@ -74,10 +74,11 @@ restService.post('/meritus_bot', function (req, res) {
                   // },
                   {
                     "basicCard": {
-                      "title": (results[0].FirstName + ' ' + results[0].LastName).toLocaleUpperCase(),
+                      "title": (results[0].FirstName + ' ' + results[0].LastName).toUpperCase(),
+                      "formattedText": "42 is an even composite number",
                       "image": {
                         "url": "https://c1.staticflickr.com/3/2841/11529684343_8dd9c26cff.jpg",
-                        "accessibilityText": (results[0].FirstName + ' ' + results[0].LastName).toLocaleLowerCase()
+                        "accessibilityText": (results[0].FirstName + ' ' + results[0].LastName)
                       },
                       "imageDisplayOptions": "WHITE"
                     }
