@@ -186,14 +186,26 @@ restService.post('/meritus_bot', function (req, res) {
             displayText: concatString,
             source: "meritus-bot",
             "data": {
-              "google": {
-                "expectUserResponse": true,
-                "richResponse": {
-                  "items": [{
-                    "simpleResponse": {
-                      "textToSpeech": 'oh there is ' + results.length + ' ' + req.body.result.parameters.employeeName + '\'s check the list'
+              'google': {
+                'expectUserResponse': true,
+                'isSsml': false,
+                'noInputPrompts': [
+
+                ],
+                'richResponse': {
+                  'items': [{
+                    'simpleResponse': {
+                      'textToSpeech': 'hello',
+                      'displayText': 'hi'
                     }
-                  }]
+                  }],
+                  'suggestions': [{
+                      'title': 'Say this'
+                    },
+                    {
+                      'title': 'or this'
+                    }
+                  ]
                 },
                 'systemIntent': {
                   'intent': 'actions.intent.OPTION',
@@ -207,7 +219,7 @@ restService.post('/meritus_bot', function (req, res) {
                               'key one'
                             ]
                           },
-                          'title': 'A'
+                          'title': ''
                         },
                         {
                           'optionInfo': {
@@ -216,7 +228,7 @@ restService.post('/meritus_bot', function (req, res) {
                               'key two'
                             ]
                           },
-                          'title': 'A'
+                          'title': ''
                         }
                       ]
                     }
