@@ -255,7 +255,6 @@ restService.post('/meritus_bot', function (req, res) {
 
           var
           var listOrCru = { "@type": "type.googleapis.com/google.actions.v2.OptionValueSpec" }
-          results.length < 10 ? (listOrCru['carouselSelect'] = { "items": items }) : (listOrCru['listSelect'] = { "items": items }); = { "@type": "type.googleapis.com/google.actions.v2.OptionValueSpec" }
           results.length < 10 ? (listOrCru['carouselSelect'] = { "items": items }) : (listOrCru['listSelect'] = { "items": items });
           return res.status(200).json({
             speech: 'oh there is ' + results.length + ' ' + req.body.result.parameters.employeeName + '\'s check the list',
