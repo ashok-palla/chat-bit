@@ -75,6 +75,9 @@ restService.post('/meritus_bot', function (req, res) {
                 ]
               }
             },
+            "slack": {
+              "text": result.speech
+            },
           }
         });
       });
