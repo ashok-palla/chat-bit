@@ -177,9 +177,27 @@ restService.post('/meritus_bot', function (req, res) {
             source: "meritus-bot"
           });
         } else if (results.length > 1) {
+          var items = [{
+            "simpleResponse": {
+              "textToSpeech": 'oh there is ' + results.length + ' ' + req.body.result.parameters.employeeName + '\'s check the list'
+            }
+          }];
           var concatString = '';
           results.forEach((item, key) => {
             concatString += (key + 1) + '.' + (item.FirstName + ' ' + item.LastName).toLocaleLowerCase() + '\n';
+            items.push({
+              "basicCard": {
+                "title": (item.FirstName + ' ' + item.LastName),
+                "subtitle": item.Designation,
+                // "formattedText": "**First Name:** " + results[0].FirstName + ", \n"
+                //   + "**Last Name:** " + results[0].LastName,
+                "image": {
+                  "url": item.imageUrl !== null ? item.imageUrl : "http://www.bsmc.net.au/wp-content/uploads/No-image-available.jpg",
+                  "accessibilityText": (item.FirstName + ' ' + item.LastName)
+                },
+                "imageDisplayOptions": "DEFAULT"
+              }
+            });
           });
           return res.status(200).json({
             speech: 'oh there is ' + results.length + ' ' + req.body.result.parameters.employeeName + '\'s check the list',
@@ -189,67 +207,7 @@ restService.post('/meritus_bot', function (req, res) {
               "google": {
                 "expectUserResponse": true,
                 "richResponse": {
-                  "items": [{
-                      "simpleResponse": {
-                        "textToSpeech": 'oh there is ' + results.length + ' ' + req.body.result.parameters.employeeName + '\'s check the list'
-                      }
-                    },
-                    {
-                      "listSelect": {
-                        "title": "Things to learn about",
-                        "items": [{
-                            "optionInfo": {
-                              "key": "MATH_AND_PRIME",
-                              "synonyms": [
-                                "math",
-                                "math and prime",
-                                "prime numbers",
-                                "prime"
-                              ]
-                            },
-                            "title": "Math & prime numbers",
-                            "description": "42 is an abundant number because the sum of its proper divisors 54 is greater…",
-                            "image": {
-                              "url": "http://example.com/math_and_prime.jpg",
-                              "accessibilityText": "Math & prime numbers"
-                            }
-                          },
-                          {
-                            "optionInfo": {
-                              "key": "EGYPT",
-                              "synonyms": [
-                                "religion",
-                                "egpyt",
-                                "ancient egyptian"
-                              ]
-                            },
-                            "title": "Ancient Egyptian religion",
-                            "description": "42 gods who ruled on the fate of the dead in the afterworld. Throughout the under…",
-                            "image": {
-                              "url": "http://example.com/egypt",
-                              "accessibilityText": "Egypt"
-                            }
-                          },
-                          {
-                            "optionInfo": {
-                              "key": "RECIPES",
-                              "synonyms": [
-                                "recipes",
-                                "recipe",
-                                "42 recipes"
-                              ]
-                            },
-                            "title": "42 recipes with 42 ingredients",
-                            "description": "Here's a beautifully simple recipe that's full of flavor! All you need is some ginger and…",
-                            "image": {
-                              "url": "http://example.com/recipe",
-                              "accessibilityText": "Recipe"
-                            }
-                          }
-                        ]
-                      }
-                    }
-                  ]
+                  "items": items
                 }
               },
               "slack": {
