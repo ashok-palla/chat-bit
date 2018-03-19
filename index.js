@@ -199,7 +199,7 @@ restService.post('/meritus_bot', function (req, res) {
             source: "meritus-bot",
             "data": {
               "google": {
-                "expectUserResponse": true,
+                "expectUserResponse": false,
                 "richResponse": {
                   "items": [{
                     "simpleResponse": {
