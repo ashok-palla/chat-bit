@@ -74,20 +74,12 @@ restService.post('/meritus_bot', function (req, res) {
                   },
                   {
                     "basicCard": {
-                      "title": (results[0].FirstName + ' ' + results[0].LastName).toLocaleLowerCase(),
+                      "title": (results[0].FirstName + ' ' + results[0].LastName),
                       "formattedText": "**First Name:** " + results[0].FirstName,
                       "image": {
                         "url": "https://c1.staticflickr.com/3/2841/11529684343_8dd9c26cff.jpg",
-                        "accessibilityText": "Image alternate text"
+                        "accessibilityText": (results[0].FirstName + ' ' + results[0].LastName)
                       },
-                      "buttons": [
-                        {
-                          "title": "Read more",
-                          "openUrlAction": {
-                            "url": "https://example.google.com/mathandprimes"
-                          }
-                        }
-                      ],
                       "imageDisplayOptions": "CROPPED"
                     }
                   }
