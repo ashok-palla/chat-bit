@@ -75,7 +75,7 @@ restService.post('/meritus_bot', function (req, res) {
                   {
                     "basicCard": {
                       "title": (results[0].FirstName + ' ' + results[0].LastName),
-                      "subtitle": "test",
+                      "subtitle": results[0].Designation,
                       "formattedText": "**First Name:** " + results[0].FirstName
                         + "\n**Last Name:** " + results[0].LastName,
                       "image": {
@@ -124,7 +124,7 @@ restService.post('/meritus_bot', function (req, res) {
                     {
                       "basicCard": {
                         "title": (results[0].FirstName + ' ' + results[0].LastName),
-                        "subtitle": "test",
+                        "subtitle": results[0].Designation,
                         "formattedText": "**First Name:** " + results[0].FirstName
                           + "\n**Last Name:** " + results[0].LastName,
                         "image": {
