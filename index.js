@@ -67,11 +67,11 @@ restService.post('/meritus_bot', function (req, res) {
               "expectUserResponse": true,
               "richResponse": {
                 "items": [
-                  // {
-                  //   "simpleResponse": {
-                  //     "textToSpeech": result.speech
-                  //   }
-                  // },
+                  {
+                    "simpleResponse": {
+                      "textToSpeech": result.speech
+                    }
+                  },
                   {
                     "basicCard": {
                       "title": (results[0].FirstName + ' ' + results[0].LastName).toLocaleLowerCase(),
