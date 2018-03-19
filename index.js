@@ -141,14 +141,47 @@ restService.post('/meritus_bot', function (req, res) {
             }
           });
         } else if (results.length > 1) {
+          var items = [];
           var concatString = '';
           results.forEach((item, key) => {
             concatString += (key + 1) + '.' + (item.FirstName + ' ' + item.LastName).toLocaleLowerCase() + '\n';
+            items.push({
+              "optionInfo": {
+                "key": "who is " + item.empId
+              },
+              "description": item.Designation,
+              "image": {
+                "url": item.imageUrl !== null ? item.imageUrl : "http://www.bsmc.net.au/wp-content/uploads/No-image-available.jpg",
+                "accessibilityText": (item.FirstName + ' ' + item.LastName).toLocaleLowerCase()
+              },
+              "title": (key + 1) + '. ' +(item.FirstName + ' ' + item.LastName).toLocaleLowerCase()
+            });
           });
           return res.status(200).json({
             speech: 'oh there is ' + results.length + ' ' + req.body.result.parameters.employeeName + '\'s check the list',
             displayText: concatString,
-            source: "meritus-bot"
+            source: "meritus-bot",
+            "data": {
+              "google": {
+                "expectUserResponse": false,
+                "richResponse": {
+                  "items": [{
+                    "simpleResponse": {
+                      "textToSpeech": 'oh there is ' + results.length + ' ' + req.body.result.parameters.employeeName + '\'s check the list'
+                    }
+                  }]
+                },
+                "systemIntent": {
+                  "intent": "actions.intent.OPTION",
+                  "data": {
+                    "@type": "type.googleapis.com/google.actions.v2.OptionValueSpec",
+                    "carouselSelect": {
+                      "items": items
+                    }
+                  }
+                }
+              }
+            }
           });
         } else {
           return res.status(200).json({

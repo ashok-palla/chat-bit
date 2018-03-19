@@ -31,7 +31,7 @@ module.exports.employeeName = function (emploeeName, callback) {
 module.exports.employeeName_lastName = function (emploeeName, lastName, callback) {
     var connection = mysql.createConnection(credentials);
     connection.connect();
-    connection.query("SELECT *  FROM employee E JOIN designation D ON D.ID = E.DesignationID WHERE E.FirstName like '%" + emploeeName + "%' and E.LastName like '%" + lastName + "%'", function (error, results, fields) {
+    connection.query("SELECT *, E.ID as empId FROM employee E JOIN designation D ON D.ID = E.DesignationID WHERE E.FirstName like '%" + emploeeName + "%' and E.LastName like '%" + lastName + "%'", function (error, results, fields) {
         connection.end();
         if (error) callback('buddy, \nplease check name.');
         callback(JSON.parse(JSON.stringify(results)));
