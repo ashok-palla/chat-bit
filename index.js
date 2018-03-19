@@ -76,7 +76,7 @@ restService.post('/meritus_bot', function (req, res) {
                     "basicCard": {
                       "title": (results[0].FirstName + ' ' + results[0].LastName),
                       "formattedText": "**First Name:** " + results[0].FirstName
-                        + "**Last Name:** " + results[0].LastName,
+                        + "\n**Last Name:** " + results[0].LastName,
                       "image": {
                         "url": "https://c1.staticflickr.com/3/2841/11529684343_8dd9c26cff.jpg",
                         "accessibilityText": (results[0].FirstName + ' ' + results[0].LastName)
@@ -124,7 +124,7 @@ restService.post('/meritus_bot', function (req, res) {
                       "basicCard": {
                         "title": (results[0].FirstName + ' ' + results[0].LastName),
                         "formattedText": "**First Name:** " + results[0].FirstName
-                          + "**Last Name:** " + results[0].LastName,
+                          + "\n**Last Name:** " + results[0].LastName,
                         "image": {
                           "url": "https://c1.staticflickr.com/3/2841/11529684343_8dd9c26cff.jpg",
                           "accessibilityText": (results[0].FirstName + ' ' + results[0].LastName)
