@@ -21,8 +21,17 @@ process.on('uncaughtException', function (err) {
 });
 
 restService.post('/meritus_bot', function (req, res) {
+  if (req.body.result.metadata.intentName === "know_employee_info_by_name") {
+    data_layer.employeeSearch(req.body.result.parameters, (results) => {
+      return res.status(200).json({
+        speech: (results[0].FirstName + ' ' + results[0].LastName).toLocaleLowerCase() + ' ' + req.body.result.parameters.employee_search_criteria + ' is ' + results[0].managerName,
+        displayText: (results[0].FirstName + ' ' + results[0].LastName).toLocaleLowerCase() + ' ' + req.body.result.parameters.employee_search_criteria + ' is ' + req.body.result.parameters.employee_search_criteria,
+        source: "meritus-bot"
+      });
+    });
+  }
   // Start: Check Employee ID Exist or Not
-  if (req.body.result.action === "check_employeeid") {
+  else if (req.body.result.action === "check_employeeid") {
     data_layer.employeeIdCheck(req.body.result.parameters.employeeId, (results) => {
       if (results.length === 1) {
         mailer.sendMail({
@@ -68,7 +77,7 @@ restService.post('/meritus_bot', function (req, res) {
               "richResponse": {
                 "items": [{
                   "simpleResponse": {
-                    "ssml": results.length > 0 ? "<speak><say-as interpret-as=\"digits\">" + req.body.result.parameters.employeeId + "</say-as> is "+ (results[0].FirstName + " " + results[0].LastName).toLocaleLowerCase() +"\'s employee identification number.</speak>" : ('no employee exists on ' + req.body.result.parameters.employeeId),
+                    "ssml": results.length > 0 ? "<speak><say-as interpret-as=\"digits\">" + req.body.result.parameters.employeeId + "</say-as> is " + (results[0].FirstName + " " + results[0].LastName).toLocaleLowerCase() + "\'s employee identification number.</speak>" : ('no employee exists on ' + req.body.result.parameters.employeeId),
                   }
                 },
                 {
@@ -336,7 +345,7 @@ restService.post("/echo", function (req, res) {
 restService.post("/audio", function (req, res) {
   var speech = "";
   switch (req.body.result.parameters.AudioSample.toLowerCase()) {
-    //Speech Synthesis Markup Language 
+    //Speech Synthesis Markup Language
     case "music one":
       speech =
         '<speak><audio src="https://actions.google.com/sounds/v1/cartoon/slide_whistle.ogg">did not get your audio file</audio></speak>';

@@ -47,16 +47,42 @@ module.exports.emailCheck = function (email, callback) {
     });
 };
 module.exports.employeeIdCheck = function (employeeId, callback) {
-    Joi.validate(employeeId, Joi.number().integer().min(21100).max(30000).required(), function (err, value) {
-        if (err) callback('buddy, \nplease check employee identification.');
+    const validate = Joi.validate(employeeId, Joi.number().integer().min(21100).max(30000).required());
+    if (validate.error === null) {
         var connection = mysql.createConnection(credentials);
         connection.connect();
         connection.query("SELECT * FROM EMPLOYEE where ID = " + employeeId, function (error, results, fields) {
             connection.end();
             if (error) callback('buddy, \nplease check employee identification.');
-            console.log(employeeId);
             callback(JSON.parse(JSON.stringify(results)));
         });
+    }
+    else {
+        callback('buddy, \nplease check employee identification.');
+    }
+};
+module.exports.employeeSearch = function (params, callback) {
+    const schema = Joi.object().keys({
+        employee_search_criteria: Joi.string().min(1).required(),
+        firstName: Joi.string().min(1).required(),
+        lastName: Joi.string().min(1).required()
     });
+    const value = {
+        employee_search_criteria: params.employee_search_criteria,
+        firstName: params.firstName,
+        lastName: params.lastName
+    };
+    const validate = Joi.validate(value, schema);
+    console.log(validate);
+    if (validate.error === null) {
+        var connection = mysql.createConnection(credentials);
+        connection.connect();
+        connection.query("SELECT E.*, CONCAT(EE.FirstName, CONCAT(' ', EE.LastName)) as managerName FROM employee E JOIN designation D ON D.ID = E.DesignationID JOIN EMPLOYEE EE ON EE.ID = E.Immediate_Reporting_Manager_ID WHERE E.FirstName like '%" + params.firstName + "%' or E.LastName like '%" + params.lastName + "%'", function (error, results, fields) {
+            connection.end();
+            if (error) callback('buddy, \nplease check employee identification.');
+            callback(JSON.parse(JSON.stringify(results)));
+        });
+    }
+    else { callback('validate'); }
 };
 
