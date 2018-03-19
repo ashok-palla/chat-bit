@@ -190,7 +190,7 @@ restService.post('/meritus_bot', function (req, res) {
                 "url": item.imageUrl !== null ? item.imageUrl : "http://www.bsmc.net.au/wp-content/uploads/No-image-available.jpg",
                 "accessibilityText": (item.FirstName + ' ' + item.LastName).toLocaleLowerCase()
               },
-              "title": key + '. ' +(item.FirstName + ' ' + item.LastName).toLocaleLowerCase()
+              "title": (key + 1) + '. ' +(item.FirstName + ' ' + item.LastName).toLocaleLowerCase()
             });
           });
           return res.status(200).json({
