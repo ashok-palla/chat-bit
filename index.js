@@ -66,7 +66,8 @@ restService.post('/meritus_bot', function (req, res) {
             "google": {
               "expectUserResponse": true,
               "richResponse": {
-                "items": [{
+                "items": [
+                  {
                     "simpleResponse": {
                       "textToSpeech": result.speech
                     }
@@ -114,7 +115,8 @@ restService.post('/meritus_bot', function (req, res) {
               "google": {
                 "expectUserResponse": true,
                 "richResponse": {
-                  "items": [{
+                  "items": [
+                    {
                       "simpleResponse": {
                         "textToSpeech": result.speech
                       }
@@ -184,61 +186,7 @@ restService.post('/meritus_bot', function (req, res) {
           return res.status(200).json({
             speech: 'oh there is ' + results.length + ' ' + req.body.result.parameters.employeeName + '\'s check the list',
             displayText: concatString,
-            source: "meritus-bot",
-            "data": {
-              'google': {
-                'expectUserResponse': true,
-                'isSsml': false,
-                'noInputPrompts': [
-
-                ],
-                'richResponse': {
-                  'items': [{
-                    'simpleResponse': {
-                      'textToSpeech': 'hello',
-                      'displayText': 'hi'
-                    }
-                  }],
-                  'suggestions': [{
-                      'title': 'Say this'
-                    },
-                    {
-                      'title': 'or this'
-                    }
-                  ]
-                },
-                'systemIntent': {
-                  'intent': 'actions.intent.OPTION',
-                  'data': {
-                    '@type': 'type.googleapis.com/google.actions.v2.OptionValueSpec',
-                    'listSelect': {
-                      'items': [{
-                          'optionInfo': {
-                            'key': 'key1',
-                            'synonyms': [
-                              'key one'
-                            ]
-                          },
-                          'title': ''
-                        },
-                        {
-                          'optionInfo': {
-                            'key': 'key2',
-                            'synonyms': [
-                              'key two'
-                            ]
-                          },
-                          'title': ''
-                        }
-                      ]
-                    }
-                  }
-                }
-              },
-              "slack": {
-                "text": result.speech
-              },
-            }
+            source: "meritus-bot"
           });
         } else {
           return res.status(200).json({
@@ -325,7 +273,7 @@ restService.post("/audio", function (req, res) {
       speech =
         '<speak>Let me take a break for 3 seconds. <break time="3s"/> I am back again.</speak>';
       break;
-      //https://www.w3.org/TR/speech-synthesis/#S3.2.3
+    //https://www.w3.org/TR/speech-synthesis/#S3.2.3
     case "cardinal":
       speech = '<speak><say-as interpret-as="cardinal">12345</say-as></speak>';
       break;
@@ -377,7 +325,7 @@ restService.post("/audio", function (req, res) {
       speech =
         '<speak><say-as interpret-as="telephone" format="1">(781) 771-7777</say-as> </speak>';
       break;
-      // https://www.w3.org/TR/2005/NOTE-ssml-sayas-20050526/#S3.3
+    // https://www.w3.org/TR/2005/NOTE-ssml-sayas-20050526/#S3.3
     case "alternate":
       speech =
         '<speak>IPL stands for <sub alias="indian premier league">IPL</sub></speak>';
@@ -402,51 +350,51 @@ restService.post("/slack-test", function (req, res) {
   var slack_message = {
     text: "Details of JIRA board for Browse and Commerce",
     attachments: [{
-        title: "JIRA Board",
-        title_link: "http://www.google.com",
-        color: "#36a64f",
+      title: "JIRA Board",
+      title_link: "http://www.google.com",
+      color: "#36a64f",
 
-        fields: [{
-            title: "Epic Count",
-            value: "50",
-            short: "false"
-          },
-          {
-            title: "Story Count",
-            value: "40",
-            short: "false"
-          }
-        ],
-
-        thumb_url: "https://stiltsoft.com/blog/wp-content/uploads/2016/01/5.jira_.png"
+      fields: [{
+        title: "Epic Count",
+        value: "50",
+        short: "false"
       },
       {
-        title: "Story status count",
-        title_link: "http://www.google.com",
-        color: "#f49e42",
-
-        fields: [{
-            title: "Not started",
-            value: "50",
-            short: "false"
-          },
-          {
-            title: "Development",
-            value: "40",
-            short: "false"
-          },
-          {
-            title: "Development",
-            value: "40",
-            short: "false"
-          },
-          {
-            title: "Development",
-            value: "40",
-            short: "false"
-          }
-        ]
+        title: "Story Count",
+        value: "40",
+        short: "false"
       }
+      ],
+
+      thumb_url: "https://stiltsoft.com/blog/wp-content/uploads/2016/01/5.jira_.png"
+    },
+    {
+      title: "Story status count",
+      title_link: "http://www.google.com",
+      color: "#f49e42",
+
+      fields: [{
+        title: "Not started",
+        value: "50",
+        short: "false"
+      },
+      {
+        title: "Development",
+        value: "40",
+        short: "false"
+      },
+      {
+        title: "Development",
+        value: "40",
+        short: "false"
+      },
+      {
+        title: "Development",
+        value: "40",
+        short: "false"
+      }
+      ]
+    }
     ]
   };
   return res.json({
