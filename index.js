@@ -78,9 +78,17 @@ restService.post('/meritus_bot', function (req, res) {
                       "formattedText": "42 is an even composite number. It\n    is composed of three distinct prime numbers multiplied together. It\n    has a total of eight divisors. 42 is an abundant number, because the\n    sum of its proper divisors 54 is greater than itself. To count from\n    1 to 42 would take you about twenty-one…",
                       "image": {
                         "url": "https://example.google.com/42.png",
-                        "accessibilityText": "(results[0].FirstName + ' ' + results[0].LastName).toLocaleLowerCase()"
+                        "accessibilityText": "Image alternate text"
                       },
-                      "imageDisplayOptions": "WHITE"
+                      "buttons": [
+                        {
+                          "title": "Read more",
+                          "openUrlAction": {
+                            "url": "https://example.google.com/mathandprimes"
+                          }
+                        }
+                      ],
+                      "imageDisplayOptions": "CROPPED"
                     }
                   }
                 ]
