@@ -66,8 +66,7 @@ restService.post('/meritus_bot', function (req, res) {
             "google": {
               "expectUserResponse": true,
               "richResponse": {
-                "items": [
-                  {
+                "items": [{
                     "simpleResponse": {
                       "textToSpeech": result.speech
                     }
@@ -115,8 +114,7 @@ restService.post('/meritus_bot', function (req, res) {
               "google": {
                 "expectUserResponse": true,
                 "richResponse": {
-                  "items": [
-                    {
+                  "items": [{
                       "simpleResponse": {
                         "textToSpeech": result.speech
                       }
@@ -150,7 +148,82 @@ restService.post('/meritus_bot', function (req, res) {
           return res.status(200).json({
             speech: 'oh there is ' + results.length + ' ' + req.body.result.parameters.employeeName + '\'s check the list',
             displayText: concatString,
-            source: "meritus-bot"
+            source: "meritus-bot",
+            "data": {
+              "google": {
+                "expectUserResponse": true,
+                "richResponse": {
+                  "items": [{
+                    "simpleResponse": {
+                      "textToSpeech": result.speech
+                    }
+                  }],
+                  "possibleIntents": [{
+                    "intent": "assistant.intent.actions.OPTION",
+                    "input_value_spec": {
+                      "option_value_spec": {
+                        "list_select": {
+                          "title": "Things to learn about",
+                          "items": [{
+                              "optionInfo": {
+                                "key": "MATH_AND_PRIME",
+                                "synonyms": [
+                                  "math",
+                                  "math and prime",
+                                  "prime numbers",
+                                  "prime"
+                                ]
+                              },
+                              "title": "Math & prime numbers",
+                              "description": "42 is an abundant number because the sum of its proper divisors 54 is greater",
+                              "image": {
+                                "url": "http://example.com/math_and_prime.jpg",
+                                "accessibilityText": "Math & prime numbers"
+                              }
+                            },
+                            {
+                              "optionInfo": {
+                                "key": "EGYPT",
+                                "synonyms": [
+                                  "religion",
+                                  "egpyt",
+                                  "ancient egyptian"
+                                ]
+                              },
+                              "title": "Ancient Egyptian religion",
+                              "description": "42 gods who ruled on the fate of the dead in the afterworld. Throughout the under",
+                              "image": {
+                                "url": "http://example.com/egypt",
+                                "accessibilityText": "Egypt"
+                              }
+                            },
+                            {
+                              "optionInfo": {
+                                "key": "RECIPES",
+                                "synonyms": [
+                                  "recipes",
+                                  "recipe",
+                                  "42 recipes"
+                                ]
+                              },
+                              "title": "42 recipes with 42 ingredients",
+                              "description": "Here is a beautifully simple recipe that is full of flavor! All you need is some ginger and",
+                              "image": {
+                                "url": "http://example.com/recipe",
+                                "accessibilityText": "Recipe"
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  }]
+                }
+              },
+              "slack": {
+                "text": result.speech
+              },
+            }
           });
         } else {
           return res.status(200).json({
@@ -273,7 +346,7 @@ restService.post("/audio", function (req, res) {
       speech =
         '<speak>Let me take a break for 3 seconds. <break time="3s"/> I am back again.</speak>';
       break;
-    //https://www.w3.org/TR/speech-synthesis/#S3.2.3
+      //https://www.w3.org/TR/speech-synthesis/#S3.2.3
     case "cardinal":
       speech = '<speak><say-as interpret-as="cardinal">12345</say-as></speak>';
       break;
@@ -325,7 +398,7 @@ restService.post("/audio", function (req, res) {
       speech =
         '<speak><say-as interpret-as="telephone" format="1">(781) 771-7777</say-as> </speak>';
       break;
-    // https://www.w3.org/TR/2005/NOTE-ssml-sayas-20050526/#S3.3
+      // https://www.w3.org/TR/2005/NOTE-ssml-sayas-20050526/#S3.3
     case "alternate":
       speech =
         '<speak>IPL stands for <sub alias="indian premier league">IPL</sub></speak>';
@@ -350,51 +423,51 @@ restService.post("/slack-test", function (req, res) {
   var slack_message = {
     text: "Details of JIRA board for Browse and Commerce",
     attachments: [{
-      title: "JIRA Board",
-      title_link: "http://www.google.com",
-      color: "#36a64f",
+        title: "JIRA Board",
+        title_link: "http://www.google.com",
+        color: "#36a64f",
 
-      fields: [{
-        title: "Epic Count",
-        value: "50",
-        short: "false"
+        fields: [{
+            title: "Epic Count",
+            value: "50",
+            short: "false"
+          },
+          {
+            title: "Story Count",
+            value: "40",
+            short: "false"
+          }
+        ],
+
+        thumb_url: "https://stiltsoft.com/blog/wp-content/uploads/2016/01/5.jira_.png"
       },
       {
-        title: "Story Count",
-        value: "40",
-        short: "false"
+        title: "Story status count",
+        title_link: "http://www.google.com",
+        color: "#f49e42",
+
+        fields: [{
+            title: "Not started",
+            value: "50",
+            short: "false"
+          },
+          {
+            title: "Development",
+            value: "40",
+            short: "false"
+          },
+          {
+            title: "Development",
+            value: "40",
+            short: "false"
+          },
+          {
+            title: "Development",
+            value: "40",
+            short: "false"
+          }
+        ]
       }
-      ],
-
-      thumb_url: "https://stiltsoft.com/blog/wp-content/uploads/2016/01/5.jira_.png"
-    },
-    {
-      title: "Story status count",
-      title_link: "http://www.google.com",
-      color: "#f49e42",
-
-      fields: [{
-        title: "Not started",
-        value: "50",
-        short: "false"
-      },
-      {
-        title: "Development",
-        value: "40",
-        short: "false"
-      },
-      {
-        title: "Development",
-        value: "40",
-        short: "false"
-      },
-      {
-        title: "Development",
-        value: "40",
-        short: "false"
-      }
-      ]
-    }
     ]
   };
   return res.json({
