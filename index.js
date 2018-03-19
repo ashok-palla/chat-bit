@@ -61,7 +61,49 @@ restService.post('/meritus_bot', function (req, res) {
         return res.status(200).json({
           speech: result.speech,
           displayText: result.display,
-          source: "meritus-bot"
+          source: "meritus-bot",
+          "messages": {
+            "type": 1,
+            "title": "card title",
+            "subtitle": "card text",
+            "imageUrl": "https://assistant.google.com/static/images/molecule/Molecule-Formation-stop.png"
+          },
+          "data": {
+            "google": {
+              "expectUserResponse": true,
+              "richResponse": {
+                "items": [
+                  {
+                    "simpleResponse": {
+                      "textToSpeech": "this is a simple response"
+                    }
+                  }
+                ]
+              }
+            },
+            "facebook": {
+              "text": "Hello, Facebook!"
+            },
+            "slack": {
+              "text": "This is a text response for Slack."
+            }
+          },
+          "contextOut": [
+            {
+              "name": "context name",
+              "lifespan": 5,
+              "parameters": {
+                "param": "param value"
+              }
+            }
+          ],
+          "source": "example.com",
+          "followupEvent": {
+            "name": "event name",
+            "parameters": {
+              "param": "param value"
+            }
+          }
         });
       });
     } else if (req.body.result && req.body.result.parameters && req.body.result.parameters.employeeName && req.body.result.parameters.lastName !== "") {
