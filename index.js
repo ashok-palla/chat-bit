@@ -68,7 +68,7 @@ restService.post('/meritus_bot', function (req, res) {
               "richResponse": {
                 "items": [{
                   "simpleResponse": {
-                    "textToSpeech": result.speech
+                    "textToSpeech": '<speak> <say-as interpret-as="digits">' + results.length > 0 ? req.body.result.parameters.employeeId + '</say-as> is ' + (results[0].FirstName + ' ' + results[0].LastName).toLocaleLowerCase() + '\'s employee identification number.</speak>' : ('no employee exists on <speak> <say-as interpret-as="digits">' + req.body.result.parameters.employeeId + '</say-as> </speak>'),
                   }
                 },
                 {
