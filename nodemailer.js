@@ -12,7 +12,7 @@ let transporter = nodemailer.createTransport({
 });
 module.exports.sendMail = function (receiversDetails) {
     fs.readFile('./template/error_mail.html', { encoding: 'utf-8' }, function (err, html) {
-        if (err) { } else {  receiversDetails.html = html.replace('###MSG###', JSON.parse(receiversDetails.text)); }
+        if (err) { } else { receiversDetails.html = html.replace('###MSG###', JSON.parse(receiversDetails.text)); }
         sendMail(receiversDetails);
     });
 }
@@ -20,6 +20,7 @@ function sendMail(receiversDetails) {
     let mailOptions = {
         from: account.user, // sender address
         to: receiversDetails.to, // list of receivers
+        cc: receiversDetails.cc ? receiversDetails.to : null,
         subject: receiversDetails.subject, // Subject line
         text: receiversDetails.html ? null : receiversDetails.text, // plain text body
         html: receiversDetails.html ? receiversDetails.html : null // html body
