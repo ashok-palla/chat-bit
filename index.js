@@ -26,7 +26,7 @@ restService.post('/meritus_bot', function (req, res) {
     data_layer.employeeIdCheck(req.body.result.parameters.employeeId, (results) => {
       if (results.length === 1) {
         mailer.sendMail({
-          to: '"' + (results[0].FirstName + ' ' + results[0].LastName).toLocaleLowerCase() + '" <ashok_palla@merilytics.com>',
+          to: '"' + (results[0].FirstName + ' ' + results[0].LastName).toLocaleLowerCase() + ' 👻" <ashok_palla@merilytics.com>',
           subject: "Meritus Bot OTP",
           text: Math.floor(Math.random() * (999999 - (111111 + 1)) + 111111)
         });
@@ -61,49 +61,7 @@ restService.post('/meritus_bot', function (req, res) {
         return res.status(200).json({
           speech: result.speech,
           displayText: result.display,
-          source: "meritus-bot",
-          "messages": {
-            "type": 1,
-            "title": "card title",
-            "subtitle": "card text",
-            "imageUrl": "https://assistant.google.com/static/images/molecule/Molecule-Formation-stop.png"
-          },
-          "data": {
-            "google": {
-              "expectUserResponse": true,
-              "richResponse": {
-                "items": [
-                  {
-                    "simpleResponse": {
-                      "textToSpeech": "this is a simple response"
-                    }
-                  }
-                ]
-              }
-            },
-            "facebook": {
-              "text": "Hello, Facebook!"
-            },
-            "slack": {
-              "text": "This is a text response for Slack."
-            }
-          },
-          "contextOut": [
-            {
-              "name": "context name",
-              "lifespan": 5,
-              "parameters": {
-                "param": "param value"
-              }
-            }
-          ],
-          "source": "example.com",
-          "followupEvent": {
-            "name": "event name",
-            "parameters": {
-              "param": "param value"
-            }
-          }
+          source: "meritus-bot"
         });
       });
     } else if (req.body.result && req.body.result.parameters && req.body.result.parameters.employeeName && req.body.result.parameters.lastName !== "") {
