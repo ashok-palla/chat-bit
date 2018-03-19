@@ -109,7 +109,36 @@ restService.post('/meritus_bot', function (req, res) {
           return res.status(200).json({
             speech: result.speech,
             displayText: result.display,
-            source: "meritus-bot"
+            source: "meritus-bot",
+            "data": {
+              "google": {
+                "expectUserResponse": true,
+                "richResponse": {
+                  "items": [
+                    {
+                      "simpleResponse": {
+                        "textToSpeech": result.speech
+                      }
+                    },
+                    {
+                      "basicCard": {
+                        "title": (results[0].FirstName + ' ' + results[0].LastName),
+                        "formattedText": "**First Name:** " + results[0].FirstName
+                          + "**Last Name:** " + results[0].LastName,
+                        "image": {
+                          "url": "https://c1.staticflickr.com/3/2841/11529684343_8dd9c26cff.jpg",
+                          "accessibilityText": (results[0].FirstName + ' ' + results[0].LastName)
+                        },
+                        "imageDisplayOptions": "CROPPED"
+                      }
+                    }
+                  ]
+                }
+              },
+              "slack": {
+                "text": result.speech
+              },
+            }
           });
         } else if (results.length > 1) {
           var concatString = '';
