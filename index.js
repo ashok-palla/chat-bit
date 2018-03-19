@@ -66,8 +66,7 @@ restService.post('/meritus_bot', function (req, res) {
             "google": {
               "expectUserResponse": true,
               "richResponse": {
-                "items": [
-                  {
+                "items": [{
                     "simpleResponse": {
                       "textToSpeech": result.speech
                     }
@@ -115,8 +114,7 @@ restService.post('/meritus_bot', function (req, res) {
               "google": {
                 "expectUserResponse": true,
                 "richResponse": {
-                  "items": [
-                    {
+                  "items": [{
                       "simpleResponse": {
                         "textToSpeech": result.speech
                       }
@@ -191,31 +189,45 @@ restService.post('/meritus_bot', function (req, res) {
               "google": {
                 "expectUserResponse": true,
                 "richResponse": {
-                  "items": [
-                    {
-                      "simpleResponse": {
-                        "textToSpeech": result.speech
-                      }
-                    },
-                    {
-                      "basicCard": {
-                        "title": (results[0].FirstName + ' ' + results[0].LastName),
-                        "subtitle": results[0].Designation,
-                        // "formattedText": "**First Name:** " + results[0].FirstName + ", \n"
-                        //   + "**Last Name:** " + results[0].LastName,
-                        "image": {
-                          "url": results[0].imageUrl !== null ? results[0].imageUrl : "http://www.bsmc.net.au/wp-content/uploads/No-image-available.jpg",
-                          "accessibilityText": (results[0].FirstName + ' ' + results[0].LastName)
-                        },
-                        "imageDisplayOptions": "DEFAULT"
-                      }
+                  "items": [{
+                    "simpleResponse": {
+                      "textToSpeech": "Choose a item"
                     }
-                  ]
+                  }]
+                },
+                "systemIntent": {
+                  "intent": "actions.intent.OPTION",
+                  "data": {
+                    "@type": "type.googleapis.com/google.actions.v2.OptionValueSpec",
+                    "listSelect": {
+                      "title": "Hello",
+                      "items": [{
+                          "optionInfo": {
+                            "key": "first title"
+                          },
+                          "description": "first description",
+                          "image": {
+                            "url": "https://developers.google.com/actions/images/badges/XPM_BADGING_GoogleAssistant_VER.png",
+                            "accessibilityText": "first alt"
+                          },
+                          "title": "first title"
+                        },
+                        {
+                          "optionInfo": {
+                            "key": "second"
+                          },
+                          "description": "second description",
+                          "image": {
+                            "url": "https://lh3.googleusercontent.com/Nu3a6F80WfixUqf_ec_vgXy_c0-0r4VLJRXjVFF_X_CIilEu8B9fT35qyTEj_PEsKw",
+                            "accessibilityText": "second alt"
+                          },
+                          "title": "second title"
+                        }
+                      ]
+                    }
+                  }
                 }
-              },
-              "slack": {
-                "text": result.speech
-              },
+              }
             }
           });
         } else {
@@ -303,7 +315,7 @@ restService.post("/audio", function (req, res) {
       speech =
         '<speak>Let me take a break for 3 seconds. <break time="3s"/> I am back again.</speak>';
       break;
-    //https://www.w3.org/TR/speech-synthesis/#S3.2.3
+      //https://www.w3.org/TR/speech-synthesis/#S3.2.3
     case "cardinal":
       speech = '<speak><say-as interpret-as="cardinal">12345</say-as></speak>';
       break;
@@ -355,7 +367,7 @@ restService.post("/audio", function (req, res) {
       speech =
         '<speak><say-as interpret-as="telephone" format="1">(781) 771-7777</say-as> </speak>';
       break;
-    // https://www.w3.org/TR/2005/NOTE-ssml-sayas-20050526/#S3.3
+      // https://www.w3.org/TR/2005/NOTE-ssml-sayas-20050526/#S3.3
     case "alternate":
       speech =
         '<speak>IPL stands for <sub alias="indian premier league">IPL</sub></speak>';
@@ -380,51 +392,51 @@ restService.post("/slack-test", function (req, res) {
   var slack_message = {
     text: "Details of JIRA board for Browse and Commerce",
     attachments: [{
-      title: "JIRA Board",
-      title_link: "http://www.google.com",
-      color: "#36a64f",
+        title: "JIRA Board",
+        title_link: "http://www.google.com",
+        color: "#36a64f",
 
-      fields: [{
-        title: "Epic Count",
-        value: "50",
-        short: "false"
+        fields: [{
+            title: "Epic Count",
+            value: "50",
+            short: "false"
+          },
+          {
+            title: "Story Count",
+            value: "40",
+            short: "false"
+          }
+        ],
+
+        thumb_url: "https://stiltsoft.com/blog/wp-content/uploads/2016/01/5.jira_.png"
       },
       {
-        title: "Story Count",
-        value: "40",
-        short: "false"
+        title: "Story status count",
+        title_link: "http://www.google.com",
+        color: "#f49e42",
+
+        fields: [{
+            title: "Not started",
+            value: "50",
+            short: "false"
+          },
+          {
+            title: "Development",
+            value: "40",
+            short: "false"
+          },
+          {
+            title: "Development",
+            value: "40",
+            short: "false"
+          },
+          {
+            title: "Development",
+            value: "40",
+            short: "false"
+          }
+        ]
       }
-      ],
-
-      thumb_url: "https://stiltsoft.com/blog/wp-content/uploads/2016/01/5.jira_.png"
-    },
-    {
-      title: "Story status count",
-      title_link: "http://www.google.com",
-      color: "#f49e42",
-
-      fields: [{
-        title: "Not started",
-        value: "50",
-        short: "false"
-      },
-      {
-        title: "Development",
-        value: "40",
-        short: "false"
-      },
-      {
-        title: "Development",
-        value: "40",
-        short: "false"
-      },
-      {
-        title: "Development",
-        value: "40",
-        short: "false"
-      }
-      ]
-    }
     ]
   };
   return res.json({
