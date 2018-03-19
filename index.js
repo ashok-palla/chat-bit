@@ -175,7 +175,7 @@ restService.post('/meritus_bot', function (req, res) {
                   "intent": "actions.intent.OPTION",
                   "data": {
                     "@type": "type.googleapis.com/google.actions.v2.OptionValueSpec",
-                    "carouselSelect": {
+                    "listSelect": {
                       "items": items
                     }
                   }
@@ -273,7 +273,7 @@ restService.post('/meritus_bot', function (req, res) {
                   "intent": "actions.intent.OPTION",
                   "data": {
                     "@type": "type.googleapis.com/google.actions.v2.OptionValueSpec",
-                    "carouselSelect": {
+                    "listSelect": {
                       "items": items
                     }
                   }
