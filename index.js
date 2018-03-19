@@ -259,7 +259,82 @@ restService.post('/meritus_bot', function (req, res) {
           return res.status(200).json({
             speech: 'oh there is ' + results.length + ' ' + req.body.result.parameters.employeeName + '\'s check the list',
             displayText: concatString,
-            source: "meritus-bot"
+            source: "meritus-bot",
+            "data": {
+              "google": {
+                "expectUserResponse": true,
+                "richResponse": {
+                  "items": [{
+                    "simpleResponse": {
+                      "textToSpeech": result.speech
+                    }
+                  }],
+                  "possibleIntents": [{
+                    "intent": "assistant.intent.actions.OPTION",
+                    "input_value_spec": {
+                      "option_value_spec": {
+                        "list_select": {
+                          "title": "Things to learn about",
+                          "items": [{
+                              "optionInfo": {
+                                "key": "MATH_AND_PRIME",
+                                "synonyms": [
+                                  "math",
+                                  "math and prime",
+                                  "prime numbers",
+                                  "prime"
+                                ]
+                              },
+                              "title": "Math & prime numbers",
+                              "description": "42 is an abundant number because the sum of its proper divisors 54 is greater",
+                              "image": {
+                                "url": "http://example.com/math_and_prime.jpg",
+                                "accessibilityText": "Math & prime numbers"
+                              }
+                            },
+                            {
+                              "optionInfo": {
+                                "key": "EGYPT",
+                                "synonyms": [
+                                  "religion",
+                                  "egpyt",
+                                  "ancient egyptian"
+                                ]
+                              },
+                              "title": "Ancient Egyptian religion",
+                              "description": "42 gods who ruled on the fate of the dead in the afterworld. Throughout the under",
+                              "image": {
+                                "url": "http://example.com/egypt",
+                                "accessibilityText": "Egypt"
+                              }
+                            },
+                            {
+                              "optionInfo": {
+                                "key": "RECIPES",
+                                "synonyms": [
+                                  "recipes",
+                                  "recipe",
+                                  "42 recipes"
+                                ]
+                              },
+                              "title": "42 recipes with 42 ingredients",
+                              "description": "Here is a beautifully simple recipe that is full of flavor! All you need is some ginger and",
+                              "image": {
+                                "url": "http://example.com/recipe",
+                                "accessibilityText": "Recipe"
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  }]
+                }
+              },
+              "slack": {
+                "text": result.speech
+              },
+            }
           });
         } else {
           return res.status(200).json({
