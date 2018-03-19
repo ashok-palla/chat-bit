@@ -191,7 +191,7 @@ restService.post('/meritus_bot', function (req, res) {
                 "richResponse": {
                   "items": [{
                     "simpleResponse": {
-                      "textToSpeech": result.speech
+                      "textToSpeech": 'oh there is ' + results.length + ' ' + req.body.result.parameters.employeeName + '\'s check the list'
                     }
                   }],
                   "suggestions": [{
@@ -210,7 +210,7 @@ restService.post('/meritus_bot', function (req, res) {
                 }
               },
               "slack": {
-                "text": result.speech
+                "text": 'oh there is ' + results.length + ' ' + req.body.result.parameters.employeeName + '\'s check the list'
               },
             }
           });
