@@ -252,8 +252,6 @@ restService.post('/meritus_bot', function (req, res) {
               "title": (key + 1) + '. ' + (item.FirstName + ' ' + item.LastName).toLocaleLowerCase()
             });
           });
-
-          var
           var listOrCru = { "@type": "type.googleapis.com/google.actions.v2.OptionValueSpec" }
           results.length < 10 ? (listOrCru['carouselSelect'] = { "items": items }) : (listOrCru['listSelect'] = { "items": items });
           return res.status(200).json({
