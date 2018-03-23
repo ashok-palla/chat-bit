@@ -24,8 +24,8 @@ restService.post('/meritus_bot', function (req, res) {
   if (req.body.result.metadata.intentName === "know_employee_info_by_name") {
     data_layer.employeeSearch(req.body.result.parameters, (results) => {
       return res.status(200).json({
-        speech: (results[0].FirstName + ' ' + results[0].LastName).toLocaleLowerCase() + ' ' + req.body.result.parameters.employee_search_criteria + ' is ' + results[0].managerName,
-        displayText: (results[0].FirstName + ' ' + results[0].LastName).toLocaleLowerCase() + ' ' + req.body.result.parameters.employee_search_criteria + ' is ' + req.body.result.parameters.employee_search_criteria,
+        speech: results,
+        displayText: results,
         source: "meritus-bot"
       });
     });

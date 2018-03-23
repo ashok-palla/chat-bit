@@ -73,15 +73,17 @@ module.exports.employeeSearch = function (params, callback) {
         lastName: params.lastName
     };
     const validate = Joi.validate(value, schema);
-    console.log(validate);
     if (validate.error === null) {
-        var connection = mysql.createConnection(credentials);
-        connection.connect();
-        connection.query("SELECT E.*, CONCAT(EE.FirstName, CONCAT(' ', EE.LastName)) as managerName FROM employee E JOIN designation D ON D.ID = E.DesignationID JOIN EMPLOYEE EE ON EE.ID = E.Immediate_Reporting_Manager_ID WHERE E.FirstName like '%" + params.firstName + "%' or E.LastName like '%" + params.lastName + "%'", function (error, results, fields) {
-            connection.end();
-            if (error) callback('buddy, \nplease check employee identification.');
-            callback(JSON.parse(JSON.stringify(results)));
-        });
+        if (params.employee_search_criteria === 'manager') {
+            var connection = mysql.createConnection(credentials);
+            connection.connect();
+            connection.query("SELECT E.*, CONCAT(EE.FirstName, CONCAT(' ', EE.LastName)) as managerName FROM employee E JOIN designation D ON D.ID = E.DesignationID JOIN EMPLOYEE EE ON EE.ID = E.Immediate_Reporting_Manager_ID WHERE E.FirstName like '%" + params.firstName + "%' or E.LastName like '%" + params.lastName + "%'", function (error, results, fields) {
+                connection.end();
+                if (error) callback('buddy, \nplease check employee identification.');
+                var RResult = JSON.parse(JSON.stringify(results));
+                callback((RResult[0].FirstName + ' ' + RResult[0].LastName).toLocaleLowerCase() + ' ' + params.employee_search_criteria + ' is ' + RResult[0].managerName);
+            });
+        }
     }
     else { callback('validate'); }
 };
