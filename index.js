@@ -63,6 +63,14 @@ restService.post('/meritus_bot', function (req, res) {
       });
     } else if (req.body.result && req.body.result.parameters && req.body.result.parameters.employeeId) {
       data_layer.employeeId(req.body.result.parameters.employeeId, (results) => {
+        console.log(results);
+        if (results.length === 0) {
+          var result = {
+            speech: ('no employee exists on ' + req.body.result.parameters.employeeId),
+            display: ('no employee exists on ' + req.body.result.parameters.employeeId)
+          };
+          return res.status(200).json(result);
+        }
         var result = {
           speech: results.length > 0 ? req.body.result.parameters.employeeId + ' is ' + (results[0].FirstName + ' ' + results[0].LastName).toLocaleLowerCase() + '\'s employee identification number.' : ('no employee exists on ' + req.body.result.parameters.employeeId),
           display: results.length > 0 ? req.body.result.parameters.employeeId + ' is ' + (results[0].FirstName + ' ' + results[0].LastName).toLocaleLowerCase() + '\'s employee identification number.' : ('no employee exists on ' + req.body.result.parameters.employeeId)
