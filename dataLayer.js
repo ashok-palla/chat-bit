@@ -111,7 +111,7 @@ module.exports.employeeSearch = function (params, callback) {
                 console.log(params);
                 var RResult = JSON.parse(JSON.stringify(results));
                 if(RResult.length === 0){
-                    callback('sorry role not exists');
+                    callback('sorry jobtype not exists');
                 }
                 callback((RResult[0].FirstName + ' ' + RResult[0].LastName).toLocaleLowerCase() + ' ' + params.employee_search_criteria + ' is ' + RResult[0].JobType);
             });
