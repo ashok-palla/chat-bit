@@ -87,6 +87,19 @@ module.exports.employeeSearch = function (params, callback) {
                 callback((RResult[0].FirstName + ' ' + RResult[0].LastName).toLocaleLowerCase() + ' ' + params.employee_search_criteria + ' is ' + RResult[0].managerName);
             });
         }
+        else if (params.employee_search_criteria === 'designation') {
+            var connection = mysql.createConnection(credentials);
+            connection.connect();
+            connection.query("SELECT * FROM employee E JOIN designation D ON D.ID = E.DesignationID WHERE E.FirstName like '%" + params.lastName + "%' or E.LastName like '%" + params.firstName + "%'", function (error, results, fields) {
+                connection.end();
+                if (error) callback('buddy, \nplease check employee identification.');
+                var RResult = JSON.parse(JSON.stringify(results));
+                if(RResult.length === 0){
+                    callback('sorry designation exists');
+                }
+                callback((RResult[0].FirstName + ' ' + RResult[0].LastName).toLocaleLowerCase() + ' ' + params.employee_search_criteria + ' is ' + RResult[0].Designation);
+            });
+        }
         else if (params.employee_search_criteria === 'role') {
             var connection = mysql.createConnection(credentials);
             connection.connect();
