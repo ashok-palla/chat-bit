@@ -84,6 +84,16 @@ module.exports.employeeSearch = function (params, callback) {
                 callback((RResult[0].FirstName + ' ' + RResult[0].LastName).toLocaleLowerCase() + ' ' + params.employee_search_criteria + ' is ' + RResult[0].managerName);
             });
         }
+        else if (params.employee_search_criteria === 'role') {
+            var connection = mysql.createConnection(credentials);
+            connection.connect();
+            connection.query("SELECT E.*, r.role_name FROM employee E JOIN roles r ON r.role_id = E.RoleID WHERE E.FirstName like '%" + params.firstName + "%' or E.LastName like '%" + params.lastName + "%'", function (error, results, fields) {
+                connection.end();
+                if (error) callback('buddy, \nplease check employee identification.');
+                var RResult = JSON.parse(JSON.stringify(results));
+                callback((RResult[0].FirstName + ' ' + RResult[0].LastName).toLocaleLowerCase() + ' ' + params.employee_search_criteria + ' is ' + RResult[0].role_name);
+            });
+        }
     }
     else { callback('validate'); }
 };
