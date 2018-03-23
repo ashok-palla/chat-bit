@@ -94,6 +94,9 @@ module.exports.employeeSearch = function (params, callback) {
                 callback((RResult[0].FirstName + ' ' + RResult[0].LastName).toLocaleLowerCase() + ' ' + params.employee_search_criteria + ' is ' + RResult[0].role_name);
             });
         }
+        else {
+            callback('buddy, still i am in development mode');
+        }
     }
     else { callback('validate'); }
 };
