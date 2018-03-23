@@ -82,6 +82,9 @@ module.exports.employeeSearch = function (params, callback) {
                 connection.end();
                 if (error) callback('buddy, \nplease check employee identification.');
                 var RResult = JSON.parse(JSON.stringify(results));
+                if(RResult.length === 0){
+                    callback('node');
+                }
                 callback((RResult[0].FirstName + ' ' + RResult[0].LastName).toLocaleLowerCase() + ' ' + params.employee_search_criteria + ' is ' + RResult[0].managerName);
             });
         }
@@ -93,6 +96,9 @@ module.exports.employeeSearch = function (params, callback) {
                 if (error) callback('buddy, \nplease check employee identification.');
                 console.log(params);
                 var RResult = JSON.parse(JSON.stringify(results));
+                if(RResult.length === 0){
+                    callback('node');
+                }
                 callback((RResult[0].FirstName + ' ' + RResult[0].LastName).toLocaleLowerCase() + ' ' + params.employee_search_criteria + ' is ' + RResult[0].role_name);
             });
         }
