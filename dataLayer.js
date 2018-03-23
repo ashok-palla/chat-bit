@@ -83,7 +83,7 @@ module.exports.employeeSearch = function (params, callback) {
                 if (error) callback('buddy, \nplease check employee identification.');
                 var RResult = JSON.parse(JSON.stringify(results));
                 if(RResult.length === 0){
-                    callback('sorry role not exists');
+                    callback('sorry manager not exists');
                 }
                 callback((RResult[0].FirstName + ' ' + RResult[0].LastName).toLocaleLowerCase() + ' ' + params.employee_search_criteria + ' is ' + RResult[0].managerName);
             });
