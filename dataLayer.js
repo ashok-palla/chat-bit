@@ -9,13 +9,13 @@ const credentials = {
 };
 module.exports.employeeId = function (emploeeId, callback) {
     Joi.validate(emploeeId, Joi.number().min(21100).max(30000).required(), (err, value) => {
-        if (err) callback('buddy, \nplease check employee identification.');
+        if (err) return callback('buddy, \nplease check employee identification.');
         var connection = mysql.createConnection(credentials);
         connection.connect();
         connection.query("SELECT * FROM employee E JOIN designation D ON D.ID = E.DesignationID WHERE E.ID =" + emploeeId, function (error, results, fields) {
             connection.end();
-            if (error) callback(error);
-            callback(results);
+            if (error) return callback(error);
+            return callback(results);
         });
     });
 };
@@ -24,8 +24,8 @@ module.exports.employeeName = function (emploeeName, callback) {
     connection.connect();
     connection.query("SELECT *, E.ID as empId FROM employee E JOIN designation D ON D.ID = E.DesignationID WHERE E.FirstName like '%" + emploeeName + "%' or E.LastName like '%" + emploeeName + "%'", function (error, results, fields) {
         connection.end();
-        if (error) callback(error);
-        callback(JSON.parse(JSON.stringify(results)));
+        if (error) return callback(error);
+        return callback(JSON.parse(JSON.stringify(results)));
     });
 };
 module.exports.employeeName_lastName = function (emploeeName, lastName, callback) {
@@ -33,8 +33,8 @@ module.exports.employeeName_lastName = function (emploeeName, lastName, callback
     connection.connect();
     connection.query("SELECT *, E.ID as empId FROM employee E JOIN designation D ON D.ID = E.DesignationID WHERE E.FirstName like '%" + emploeeName + "%' and E.LastName like '%" + lastName + "%'", function (error, results, fields) {
         connection.end();
-        if (error) callback('buddy, \nplease check name.');
-        callback(JSON.parse(JSON.stringify(results)));
+        if (error) return callback('buddy, \nplease check name.');
+        return callback(JSON.parse(JSON.stringify(results)));
     });
 };
 module.exports.emailCheck = function (email, callback) {
@@ -42,8 +42,8 @@ module.exports.emailCheck = function (email, callback) {
     connection.connect();
     connection.query("SELECT * FROM EMPLOYEE where EmailID = '" + email + "'", function (error, results, fields) {
         connection.end();
-        if (error) callback('buddy, \nplease check email.');
-        callback(JSON.parse(JSON.stringify(results)));
+        if (error) return callback('buddy, \nplease check email.');
+        return callback(JSON.parse(JSON.stringify(results)));
     });
 };
 module.exports.employeeIdCheck = function (employeeId, callback) {
@@ -53,12 +53,12 @@ module.exports.employeeIdCheck = function (employeeId, callback) {
         connection.connect();
         connection.query("SELECT * FROM EMPLOYEE where ID = " + employeeId, function (error, results, fields) {
             connection.end();
-            if (error) callback('buddy, \nplease check employee identification.');
-            callback(JSON.parse(JSON.stringify(results)));
+            if (error) return callback('buddy, \nplease check employee identification.');
+            return callback(JSON.parse(JSON.stringify(results)));
         });
     }
     else {
-        callback('buddy, \nplease check employee identification.');
+        return callback('buddy, \nplease check employee identification.');
     }
 };
 module.exports.employeeSearch = function (params, callback) {
@@ -79,12 +79,12 @@ module.exports.employeeSearch = function (params, callback) {
             connection.connect();
             connection.query("SELECT E.*, CONCAT(EE.FirstName, CONCAT(' ', EE.LastName)) as managerName FROM employee E JOIN designation D ON D.ID = E.DesignationID JOIN EMPLOYEE EE ON EE.ID = E.Immediate_Reporting_Manager_ID WHERE E.FirstName like '%" + params.firstName + "%' or E.LastName like '%" + params.lastName + "%'", function (error, results, fields) {
                 connection.end();
-                if (error) callback('buddy, \nplease check employee identification.');
+                if (error) return callback('buddy, \nplease check employee identification.');
                 var RResult = JSON.parse(JSON.stringify(results));
                 if(RResult.length === 0){
-                    callback('sorry manager not exists');
+                    return callback('sorry manager not exists');
                 }
-                callback((RResult[0].FirstName + ' ' + RResult[0].LastName).toLocaleLowerCase() + ' ' + params.employee_search_criteria + ' is ' + RResult[0].managerName);
+                return callback((RResult[0].FirstName + ' ' + RResult[0].LastName).toLocaleLowerCase() + ' ' + params.employee_search_criteria + ' is ' + RResult[0].managerName);
             });
         }
         else if (params.employee_search_criteria === 'designation') {
@@ -92,12 +92,12 @@ module.exports.employeeSearch = function (params, callback) {
             connection.connect();
             connection.query("SELECT * FROM employee E JOIN designation D ON D.ID = E.DesignationID WHERE E.FirstName like '%" + params.lastName + "%' or E.LastName like '%" + params.firstName + "%'", function (error, results, fields) {
                 connection.end();
-                if (error) callback('buddy, \nplease check employee identification.');
+                if (error) return callback('buddy, \nplease check employee identification.');
                 var RResult = JSON.parse(JSON.stringify(results));
                 if(RResult.length === 0){
-                    callback('sorry designation not exists');
+                    return callback('sorry designation not exists');
                 }
-                callback((RResult[0].FirstName + ' ' + RResult[0].LastName).toLocaleLowerCase() + ' ' + params.employee_search_criteria + ' is ' + RResult[0].Designation);
+                return callback((RResult[0].FirstName + ' ' + RResult[0].LastName).toLocaleLowerCase() + ' ' + params.employee_search_criteria + ' is ' + RResult[0].Designation);
             });
         }
         else if (params.employee_search_criteria === 'role') {
@@ -105,12 +105,12 @@ module.exports.employeeSearch = function (params, callback) {
             connection.connect();
             connection.query("SELECT E.*, r.role_name FROM employee E JOIN roles r ON r.role_id = E.RoleID WHERE E.FirstName like '%" + params.lastName + "%' or E.LastName like '%" + params.firstName + "%'", function (error, results, fields) {
                 connection.end();
-                if (error) callback('buddy, \nplease check employee identification.');
+                if (error) return callback('buddy, \nplease check employee identification.');
                 var RResult = JSON.parse(JSON.stringify(results));
                 if(RResult.length === 0){
-                    callback('sorry role not exists');
+                    return callback('sorry role not exists');
                 }
-                callback((RResult[0].FirstName + ' ' + RResult[0].LastName).toLocaleLowerCase() + ' ' + params.employee_search_criteria + ' is ' + RResult[0].role_name);
+                return callback((RResult[0].FirstName + ' ' + RResult[0].LastName).toLocaleLowerCase() + ' ' + params.employee_search_criteria + ' is ' + RResult[0].role_name);
             });
         }
         else if (params.employee_search_criteria === 'jobtype') {
@@ -118,12 +118,12 @@ module.exports.employeeSearch = function (params, callback) {
             connection.connect();
             connection.query("SELECT E.*, r.role_name FROM employee E JOIN roles r ON r.role_id = E.RoleID WHERE E.FirstName like '%" + params.lastName + "%' or E.LastName like '%" + params.firstName + "%'", function (error, results, fields) {
                 connection.end();
-                if (error) callback('buddy, \nplease check employee identification.');
+                if (error) return callback('buddy, \nplease check employee identification.');
                 var RResult = JSON.parse(JSON.stringify(results));
                 if(RResult.length === 0){
-                    callback('sorry jobtype not exists');
+                    return callback('sorry jobtype not exists');
                 }
-                callback((RResult[0].FirstName + ' ' + RResult[0].LastName).toLocaleLowerCase() + ' ' + params.employee_search_criteria + ' is ' + RResult[0].JobType);
+                return callback((RResult[0].FirstName + ' ' + RResult[0].LastName).toLocaleLowerCase() + ' ' + params.employee_search_criteria + ' is ' + RResult[0].JobType);
             });
         }
         else if (params.employee_search_criteria === 'ID') {
@@ -131,12 +131,12 @@ module.exports.employeeSearch = function (params, callback) {
             connection.connect();
             connection.query("SELECT E.*, r.role_name FROM employee E JOIN roles r ON r.role_id = E.RoleID WHERE E.FirstName like '%" + params.lastName + "%' or E.LastName like '%" + params.firstName + "%'", function (error, results, fields) {
                 connection.end();
-                if (error) callback('buddy, \nplease check employee identification.');
+                if (error) return callback('buddy, \nplease check employee identification.');
                 var RResult = JSON.parse(JSON.stringify(results));
                 if(RResult.length === 0){
-                    callback('sorry ID not exists');
+                    return callback('sorry ID not exists');
                 }
-                callback((RResult[0].FirstName + ' ' + RResult[0].LastName).toLocaleLowerCase() + ' ' + params.employee_search_criteria + ' is ' + RResult[0].ID);
+                return callback((RResult[0].FirstName + ' ' + RResult[0].LastName).toLocaleLowerCase() + ' ' + params.employee_search_criteria + ' is ' + RResult[0].ID);
             });
         }
         else if (params.employee_search_criteria === 'status') {
@@ -144,12 +144,12 @@ module.exports.employeeSearch = function (params, callback) {
             connection.connect();
             connection.query("SELECT E.*, r.role_name FROM employee E JOIN roles r ON r.role_id = E.RoleID WHERE E.FirstName like '%" + params.lastName + "%' or E.LastName like '%" + params.firstName + "%'", function (error, results, fields) {
                 connection.end();
-                if (error) callback('buddy, \nplease check employee identification.');
+                if (error) return callback('buddy, \nplease check employee identification.');
                 var RResult = JSON.parse(JSON.stringify(results));
                 if(RResult.length === 0){
-                    callback('sorry status not exists');
+                    return callback('sorry status not exists');
                 }
-                callback((RResult[0].FirstName + ' ' + RResult[0].LastName).toLocaleLowerCase() + ' ' + params.employee_search_criteria + ' is ' + RResult[0].status ? ' Active' : 'Inactive');
+                return callback((RResult[0].FirstName + ' ' + RResult[0].LastName).toLocaleLowerCase() + ' ' + params.employee_search_criteria + ' is ' + RResult[0].status ? ' Active' : 'Inactive');
             });
         }
         else if (params.employee_search_criteria === 'date of join') {
@@ -157,12 +157,12 @@ module.exports.employeeSearch = function (params, callback) {
             connection.connect();
             connection.query("SELECT E.*, r.role_name FROM employee E JOIN roles r ON r.role_id = E.RoleID WHERE E.FirstName like '%" + params.lastName + "%' or E.LastName like '%" + params.firstName + "%'", function (error, results, fields) {
                 connection.end();
-                if (error) callback('buddy, \nplease check employee identification.');
+                if (error) return callback('buddy, \nplease check employee identification.');
                 var RResult = JSON.parse(JSON.stringify(results));
                 if(RResult.length === 0){
-                    callback('sorry date of joining not exists');
+                    return callback('sorry date of joining not exists');
                 }
-                callback((RResult[0].FirstName + ' ' + RResult[0].LastName).toLocaleLowerCase() + ' ' + params.employee_search_criteria + ' is ' + new Date(RResult[0].Date_of_Joining));
+                return callback((RResult[0].FirstName + ' ' + RResult[0].LastName).toLocaleLowerCase() + ' ' + params.employee_search_criteria + ' is ' + new Date(RResult[0].Date_of_Joining));
             });
         }
         else if (params.employee_search_criteria === 'email') {
@@ -170,18 +170,18 @@ module.exports.employeeSearch = function (params, callback) {
             connection.connect();
             connection.query("SELECT E.*, r.role_name FROM employee E JOIN roles r ON r.role_id = E.RoleID WHERE E.FirstName like '%" + params.firstName + "%' or E.LastName like '%" + params.lastName + "%'", function (error, results, fields) {
                 connection.end();
-                if (error) callback('buddy, \nplease check employee identification.');
+                if (error) return callback('buddy, \nplease check employee identification.');
                 var RResult = JSON.parse(JSON.stringify(results));
                 if(RResult.length === 0){
-                    callback('sorry email not exists');
+                    return callback('sorry email not exists');
                 }
-                callback((RResult[0].FirstName + ' ' + RResult[0].LastName).toLocaleLowerCase() + ' ' + params.employee_search_criteria + ' is ' + RResult[0].EmailID);
+                return callback((RResult[0].FirstName + ' ' + RResult[0].LastName).toLocaleLowerCase() + ' ' + params.employee_search_criteria + ' is ' + RResult[0].EmailID);
             });
         }
         else {
-            callback('buddy, still i am in development mode');
+            return callback('buddy, still i am in development mode');
         }
     }
-    else { callback('validate'); }
+    else { return callback('validate'); }
 };
 
