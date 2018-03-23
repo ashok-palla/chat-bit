@@ -155,7 +155,7 @@ module.exports.employeeSearch = function (params, callback) {
                 if(RResult.length === 0){
                     callback('sorry date of joining not exists');
                 }
-                callback((RResult[0].FirstName + ' ' + RResult[0].LastName).toLocaleLowerCase() + ' ' + params.employee_search_criteria + ' is ' + RResult[0].Date_of_Joining);
+                callback((RResult[0].FirstName + ' ' + RResult[0].LastName).toLocaleLowerCase() + ' ' + params.employee_search_criteria + ' is ' + new Date(RResult[0].Date_of_Joining));
             });
         }
         else {
