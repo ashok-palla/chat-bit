@@ -80,8 +80,7 @@ module.exports.shift_my_pc = function (params, callback) {
         connection.query(sql, [params.employeeId, params.office, params.office1], function (error, results, fields) {
             connection.end();
             if (error) callback('buddy, \nplease check employee identification.');
-            console.log(results);
-            callback(JSON.parse(JSON.stringify(results)));
+            callback(JSON.parse(JSON.stringify(results))[0][0]);
         });
     }
     else {

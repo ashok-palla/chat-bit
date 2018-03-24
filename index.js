@@ -24,8 +24,8 @@ restService.post('/meritus_bot', function (req, res) {
   if (req.body.result.metadata.intentName === "shift_my_pc - checking_employee_ID") {
     data_layer.shift_my_pc(req.body.result.contexts[3].parameters, (results) => {
       return res.status(200).json({
-        speech: 'your PC will shift soon',
-        displayText: 'your PC will shift soon',
+        speech: results.name + ', your request has been sent to IT Support for approval. We will get back to you soon',
+        displayText: results.name + ', your request has been sent to IT Support for approval. We will get back to you soon',
         source: "meritus-bot"
       });
     });
