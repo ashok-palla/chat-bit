@@ -33,11 +33,11 @@ restService.post('/meritus_bot', function (req, res) {
       mailer.sendMail({
         to: '"' + (results.name).toLocaleLowerCase() + '" <' + results.emailID + '>',
         subject: results.emailSubject,
-        text: Math.floor(Math.random() * (999999 - (111111 + 1)) + 111111)
+        text: results.name + ', a request has been initiated on you behalf with a tracking number ' + results.token
       });
       return res.status(200).json({
-        speech: results.name + ', your request has been sent to IT Support for approval. We will get back to you soon',
-        displayText: results.name + ', your request has been sent to IT Support for approval. We will get back to you soon',
+        speech: results.name + ', a request has been initiated on you behalf with a tracking number ' + results.token,
+        displayText: results.name + ', a request has been initiated on you behalf with a tracking number ' + results.token,
         source: "meritus-bot"
       });
     });
