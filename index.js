@@ -19,12 +19,7 @@ function errorHandler(err, req, res, next) {
 process.on('uncaughtException', function (err) {
   console.log('Caught exception: ' + err);
 });
-//assuming app is express Object.
-restService.get('/', function (req, res) {
 
-  res.sendFile('./index.html');
-
-});
 restService.post('/meritus_bot', function (req, res) {
   if (req.body.result.metadata.intentName === "know_employee_info_by_name") {
     data_layer.employeeSearch(req.body.result.parameters, (results) => {
