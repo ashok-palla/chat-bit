@@ -21,7 +21,16 @@ process.on('uncaughtException', function (err) {
 });
 
 restService.post('/meritus_bot', function (req, res) {
-  if (req.body.result.metadata.intentName === "know_employee_info_by_name") {
+  if (req.body.result.metadata.intentName === "shift_my_pc - checking_employee_ID") {
+    data_layer.shift_my_pc(req.body.result.contexts[3].parameters, (results) => {
+      return res.status(200).json({
+        speech: 'your PC will shift soon',
+        displayText: 'your PC will shift soon',
+        source: "meritus-bot"
+      });
+    });
+  }
+  else if (req.body.result.metadata.intentName === "know_employee_info_by_name") {
     data_layer.employeeSearch(req.body.result.parameters, (results) => {
       return res.status(200).json({
         speech: results,
@@ -63,7 +72,6 @@ restService.post('/meritus_bot', function (req, res) {
       });
     } else if (req.body.result && req.body.result.parameters && req.body.result.parameters.employeeId) {
       data_layer.employeeId(req.body.result.parameters.employeeId, (results) => {
-        console.log(results);
         if (results.length === 0) {
           var result = {
             speech: ('no employee exists on ' + req.body.result.parameters.employeeId),

@@ -61,6 +61,33 @@ module.exports.employeeIdCheck = function (employeeId, callback) {
         callback('buddy, \nplease check employee identification.');
     }
 };
+module.exports.shift_my_pc = function (params, callback) {
+    const schema = Joi.object().keys({
+        employeeId: Joi.number().required(),
+        office: Joi.strict().required(),
+        office1: Joi.strict().required(),
+    });
+    const value = {
+        employeeId: params.employeeId,
+        office: params.office,
+        office1: params.office1
+    };
+    const validate = Joi.validate(value, schema);
+    if (validate.error === null) {
+        var connection = mysql.createConnection(credentials);
+        connection.connect();
+        var sql = `CALL savePcShift(?,?,?)`;
+        connection.query(sql, [params.employeeId, params.office, params.office1], function (error, results, fields) {
+            connection.end();
+            if (error) callback('buddy, \nplease check employee identification.');
+            console.log(results);
+            callback(JSON.parse(JSON.stringify(results)));
+        });
+    }
+    else {
+        callback('buddy, \nplease check employee identification.');
+    }
+};
 module.exports.employeeSearch = function (params, callback) {
     const schema = Joi.object().keys({
         employee_search_criteria: Joi.string().min(1).required(),
@@ -81,7 +108,7 @@ module.exports.employeeSearch = function (params, callback) {
                 connection.end();
                 if (error) callback('buddy, \nplease check employee identification.');
                 var RResult = JSON.parse(JSON.stringify(results));
-                if(RResult.length === 0){
+                if (RResult.length === 0) {
                     callback('sorry manager not exists');
                 }
                 callback((RResult[0].FirstName + ' ' + RResult[0].LastName).toLocaleLowerCase() + ' ' + params.employee_search_criteria + ' is ' + RResult[0].managerName);
@@ -94,7 +121,7 @@ module.exports.employeeSearch = function (params, callback) {
                 connection.end();
                 if (error) callback('buddy, \nplease check employee identification.');
                 var RResult = JSON.parse(JSON.stringify(results));
-                if(RResult.length === 0){
+                if (RResult.length === 0) {
                     return callback('sorry designation not exists');
                 }
                 callback((RResult[0].FirstName + ' ' + RResult[0].LastName).toLocaleLowerCase() + ' ' + params.employee_search_criteria + ' is ' + RResult[0].Designation);
@@ -107,7 +134,7 @@ module.exports.employeeSearch = function (params, callback) {
                 connection.end();
                 if (error) callback('buddy, \nplease check employee identification.');
                 var RResult = JSON.parse(JSON.stringify(results));
-                if(RResult.length === 0){
+                if (RResult.length === 0) {
                     callback('sorry role not exists');
                 }
                 callback((RResult[0].FirstName + ' ' + RResult[0].LastName).toLocaleLowerCase() + ' ' + params.employee_search_criteria + ' is ' + RResult[0].role_name);
@@ -120,7 +147,7 @@ module.exports.employeeSearch = function (params, callback) {
                 connection.end();
                 if (error) callback('buddy, \nplease check employee identification.');
                 var RResult = JSON.parse(JSON.stringify(results));
-                if(RResult.length === 0){
+                if (RResult.length === 0) {
                     callback('sorry jobtype not exists');
                 }
                 callback((RResult[0].FirstName + ' ' + RResult[0].LastName).toLocaleLowerCase() + ' ' + params.employee_search_criteria + ' is ' + RResult[0].JobType);
@@ -133,7 +160,7 @@ module.exports.employeeSearch = function (params, callback) {
                 connection.end();
                 if (error) callback('buddy, \nplease check employee identification.');
                 var RResult = JSON.parse(JSON.stringify(results));
-                if(RResult.length === 0){
+                if (RResult.length === 0) {
                     callback('sorry ID not exists');
                 }
                 callback((RResult[0].FirstName + ' ' + RResult[0].LastName).toLocaleLowerCase() + ' ' + params.employee_search_criteria + ' is ' + RResult[0].ID);
@@ -146,7 +173,7 @@ module.exports.employeeSearch = function (params, callback) {
                 connection.end();
                 if (error) callback('buddy, \nplease check employee identification.');
                 var RResult = JSON.parse(JSON.stringify(results));
-                if(RResult.length === 0){
+                if (RResult.length === 0) {
                     callback('sorry status not exists');
                 }
                 callback((RResult[0].FirstName + ' ' + RResult[0].LastName).toLocaleLowerCase() + ' ' + params.employee_search_criteria + ' is ' + RResult[0].status ? ' Active' : 'Inactive');
@@ -159,7 +186,7 @@ module.exports.employeeSearch = function (params, callback) {
                 connection.end();
                 if (error) callback('buddy, \nplease check employee identification.');
                 var RResult = JSON.parse(JSON.stringify(results));
-                if(RResult.length === 0){
+                if (RResult.length === 0) {
                     callback('sorry date of joining not exists');
                 }
                 callback((RResult[0].FirstName + ' ' + RResult[0].LastName).toLocaleLowerCase() + ' ' + params.employee_search_criteria + ' is ' + new Date(RResult[0].Date_of_Joining));
@@ -172,7 +199,7 @@ module.exports.employeeSearch = function (params, callback) {
                 connection.end();
                 if (error) callback('buddy, \nplease check employee identification.');
                 var RResult = JSON.parse(JSON.stringify(results));
-                if(RResult.length === 0){
+                if (RResult.length === 0) {
                     callback('sorry email not exists');
                 }
                 callback((RResult[0].FirstName + ' ' + RResult[0].LastName).toLocaleLowerCase() + ' ' + params.employee_search_criteria + ' is ' + RResult[0].EmailID);
