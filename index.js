@@ -52,7 +52,7 @@ restService.post('/meritus_bot', function (req, res) {
     });
   }
   // Start: Check Employee ID Exist or Not
-  else if (req.body.result.action === "domain_issues - custom") {
+  else if (req.body.result.metadata.intentName === "domain_issues - custom") {
     data_layer.employeeIdCheck(req.body.result.parameters.employeeId, (results) => {
       if (results.length === 1) {
         return res.status(200).json({
