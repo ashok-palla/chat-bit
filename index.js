@@ -52,6 +52,25 @@ restService.post('/meritus_bot', function (req, res) {
     });
   }
   // Start: Check Employee ID Exist or Not
+  else if (req.body.result.metadata.intentName === "domain_issues - custom - custom - custom") {
+    data_layer.employeeIdCheck(req.body.result.parameters.employeeId, (results) => {
+      if (results.length === 1) {
+        return res.status(200).json({
+          speech: 'Thank you. we have sent an email to '(results[0].FirstName + ' ' + results[0].LastName).toLocaleLowerCase() + ' seeking approval to provide you domain access. once approved we will be given access within 4 hours. Mean while you can check the status of your request using the tracking number',
+          displayText: 'Thank you. we have sent an email to '(results[0].FirstName + ' ' + results[0].LastName).toLocaleLowerCase() + ' seeking approval to provide you domain access. once approved we will be given access within 4 hours. Mean while you can check the status of your request using the tracking number',
+          source: "meritus-bot"
+        });
+      } else {
+        return res.status(200).json({
+          speech: results,
+          displayText: results,
+          source: "meritus-bot"
+        });
+      }
+    });
+  }
+  // End: Check Employee ID Exist or Not
+  // Start: Check Employee ID Exist or Not
   else if (req.body.result.metadata.intentName === "domain_issues - custom") {
     data_layer.employeeIdCheck(req.body.result.parameters.employeeId, (results) => {
       if (results.length === 1) {
