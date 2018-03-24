@@ -63,7 +63,7 @@ module.exports.employeeIdCheck = function (employeeId, callback) {
 };
 module.exports.shift_my_pc = function (params, callback) {
     const schema = Joi.object().keys({
-        employeeId: Joi.number().required(),
+        employeeId: Joi.number().integer().min(21100).max(30000).required(),
         office: Joi.strict().required(),
         office1: Joi.strict().required(),
     });
