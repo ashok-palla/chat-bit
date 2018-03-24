@@ -79,12 +79,12 @@ module.exports.shift_my_pc = function (params, callback) {
         var sql = `CALL savePcShift(?,?,?)`;
         connection.query(sql, [params.employeeId, params.office, params.office1], function (error, results, fields) {
             connection.end();
-            if (error) callback('buddy, \nplease check employee identification.');
+            if (error) callback('');
             callback(JSON.parse(JSON.stringify(results))[0][0]);
         });
     }
     else {
-        callback('buddy, \nplease check employee identification.');
+        callback('');
     }
 };
 module.exports.employeeSearch = function (params, callback) {

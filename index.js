@@ -23,7 +23,8 @@ process.on('uncaughtException', function (err) {
 restService.post('/meritus_bot', function (req, res) {
   if (req.body.result.metadata.intentName === "shift_my_pc - checking_employee_ID") {
     data_layer.shift_my_pc(req.body.result.contexts[3].parameters, (results) => {
-      if (results[''] === '') {
+      console.log(results);
+      if (results[''] === '' || results === '') {
         return res.status(200).json({
           speech: 'I couldn\'t find your employee ID, can you please repeat it again',
           displayText: 'I couldn\'t find your employee ID, can you please repeat it again',
