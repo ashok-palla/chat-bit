@@ -2,7 +2,7 @@ const nodemailer = require('nodemailer');
 const log = require('./logger/log');
 const fs = require('fs');
 
-const account = { "user": "ashok_palla@merilytics.com", "pass": "G4jrEPqzxv2" };
+const account = { "user": "ashok_palla@merilytics.com", "pass": "7mpzidn49b4k8A" };
 
 let transporter = nodemailer.createTransport({
     host: 'smtp.office365.com',
