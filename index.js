@@ -56,8 +56,8 @@ restService.post('/meritus_bot', function (req, res) {
     data_layer.employeeIdCheck(req.body.result.parameters.employeeId, (results) => {
       if (results.length === 1) {
         return res.status(200).json({
-          speech: 'Thank you. we have sent an email to '(results[0].FirstName + ' ' + results[0].LastName).toLocaleLowerCase() + ' seeking approval to provide you domain access. once approved we will be given access within 4 hours. Mean while you can check the status of your request using the tracking number',
-          displayText: 'Thank you. we have sent an email to '(results[0].FirstName + ' ' + results[0].LastName).toLocaleLowerCase() + ' seeking approval to provide you domain access. once approved we will be given access within 4 hours. Mean while you can check the status of your request using the tracking number',
+          speech: 'Thank you. we have sent an email to '(results[0].FirstName + ' ' + results[0].LastName).toLocaleLowerCase() + ' seeking approval to provide you domain access. once approved we will be given access within 4 hours. \nMeanwhile, you can check the status of your request using the tracking number',
+          displayText: 'Thank you. we have sent an email to '(results[0].FirstName + ' ' + results[0].LastName).toLocaleLowerCase() + ' seeking approval to provide you domain access. once approved we will be given access within 4 hours. \nMeanwhile, you can check the status of your request using the tracking number',
           source: "meritus-bot"
         });
       } else {
