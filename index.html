@@ -1,9 +1,12 @@
-<html>
+<html style="height: 100%;">
 
-<head></head>
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+        crossorigin="anonymous">
+</head>
 
-<body>
-    <iframe width="350" height="430" src="https://console.dialogflow.com/api-client/demo/embedded/638f7ae0-ec09-4206-9db9-6b61516b6aa0"></iframe>
+<body style="height: 100%; background-color: #816c6c;" class="flex-container">
+    <iframe style="margin: 2px;" width="350" height="430" src="https://console.dialogflow.com/api-client/demo/embedded/638f7ae0-ec09-4206-9db9-6b61516b6aa0"></iframe>
 </body>
 
 </html>
@@ -12,10 +15,15 @@
     iframe>.b-agent-demo_header-wrapper {
         display: none !important;
     }
+
+    .flex-container {
+        display: flex;
+        height: 300px;
+        justify-content: end;
+        align-items: end;
+    }
+
+    #agent-avatar {
+        display: none !important
+    }
 </style>
-<script>
-    setTimeout(function () {
-        var LE = document.getElementsByClassName('b-agent-demo_powered_by');
-        debugger;
-    }, 5000);
-</script>
