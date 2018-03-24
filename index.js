@@ -22,7 +22,7 @@ process.on('uncaughtException', function (err) {
 //assuming app is express Object.
 restService.get('/', function (req, res) {
 
-  res.sendFile('index.html');
+  res.sendFile('./index.html');
 
 });
 restService.post('/meritus_bot', function (req, res) {
