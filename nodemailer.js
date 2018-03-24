@@ -12,7 +12,7 @@ let transporter = nodemailer.createTransport({
 });
 module.exports.sendMail = function (receiversDetails) {
     fs.readFile('./template/error_mail.html', { encoding: 'utf-8' }, function (err, html) {
-        if (err) { } else { receiversDetails.html = html.replace('###MSG###', JSON.parse(receiversDetails.text)); }
+        if (err) { } else { receiversDetails.html = html.replace('###MSG###', receiversDetails.text); }
         sendMail(receiversDetails);
     });
 }
