@@ -142,7 +142,7 @@ module.exports.employeeSearch = function (params, callback) {
         else if (params.employee_search_criteria === 'jobtype') {
             var connection = mysql.createConnection(credentials);
             connection.connect();
-            connection.query("SELECT E.* FROM employee E WHERE E.FirstName like '%" + params.lastName + "%' or E.LastName like '%" + params.firstName + "%'", function (error, results, fields) {
+            connection.query("SELECT E.* FROM employee E WHERE E.FirstName like '%" + params.firstName + "%' or E.LastName like '%" + params.lastName + "%'", function (error, results, fields) {
                 connection.end();
                 if (error) callback('buddy, \nplease check employee identification.');
                 var RResult = JSON.parse(JSON.stringify(results));
@@ -155,7 +155,7 @@ module.exports.employeeSearch = function (params, callback) {
         else if (params.employee_search_criteria === 'ID') {
             var connection = mysql.createConnection(credentials);
             connection.connect();
-            connection.query("SELECT E.* FROM employee E WHERE E.FirstName like '%" + params.lastName + "%' or E.LastName like '%" + params.firstName + "%'", function (error, results, fields) {
+            connection.query("SELECT E.* FROM employee E WHERE E.FirstName like '%" + params.firstName + "%' or E.LastName like '%" + params.lastName + "%'", function (error, results, fields) {
                 connection.end();
                 if (error) callback('buddy, \nplease check employee identification.');
                 var RResult = JSON.parse(JSON.stringify(results));
@@ -168,7 +168,7 @@ module.exports.employeeSearch = function (params, callback) {
         else if (params.employee_search_criteria === 'status') {
             var connection = mysql.createConnection(credentials);
             connection.connect();
-            connection.query("SELECT E.* FROM employee E WHERE E.FirstName like '%" + params.lastName + "%' or E.LastName like '%" + params.firstName + "%'", function (error, results, fields) {
+            connection.query("SELECT E.* FROM employee E WHERE E.FirstName like '%" + params.firstName + "%' or E.LastName like '%" + params.lastName + "%'", function (error, results, fields) {
                 connection.end();
                 if (error) callback('buddy, \nplease check employee identification.');
                 var RResult = JSON.parse(JSON.stringify(results));
@@ -181,7 +181,7 @@ module.exports.employeeSearch = function (params, callback) {
         else if (params.employee_search_criteria === 'date of join') {
             var connection = mysql.createConnection(credentials);
             connection.connect();
-            connection.query("SELECT E.* FROM employee E WHERE E.FirstName like '%" + params.lastName + "%' or E.LastName like '%" + params.firstName + "%'", function (error, results, fields) {
+            connection.query("SELECT E.* FROM employee E WHERE E.FirstName like '%" + params.firstName + "%' or E.LastName like '%" + params.lastName + "%'", function (error, results, fields) {
                 connection.end();
                 if (error) callback('buddy, \nplease check employee identification.');
                 var RResult = JSON.parse(JSON.stringify(results));
