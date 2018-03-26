@@ -103,7 +103,7 @@ module.exports.employeeSearch = function (params, callback) {
         if (params.employee_search_criteria === 'manager') {
             var connection = mysql.createConnection(credentials);
             connection.connect();
-            connection.query("SELECT E.*, CONCAT(EE.FirstName, CONCAT(' ', EE.LastName)) as managerName FROM employee E JOIN designation D ON D.ID = E.DesignationID JOIN EMPLOYEE EE ON EE.ID = E.Immediate_Reporting_Manager_ID WHERE E.FirstName like '%" + params.firstName + "%' or E.LastName like '%" + params.lastName + "%'", function (error, results, fields) {
+            connection.query("SELECT E.*, CONCAT(EE.FirstName, CONCAT(' ', EE.LastName)) as managerName FROM employee E JOIN EMPLOYEE EE ON EE.ID = E.Immediate_Reporting_Manager_ID WHERE E.FirstName like '%" + params.firstName + "%' or E.LastName like '%" + params.lastName + "%'", function (error, results, fields) {
                 connection.end();
                 if (error) callback('buddy, \nplease check employee identification.');
                 var RResult = JSON.parse(JSON.stringify(results));
